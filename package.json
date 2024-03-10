@@ -13,8 +13,8 @@
     "qwik-nx": "2.0.1"
   },
   "devDependencies": {
-    "@builder.io/qwik": "1.5.1",
-    "@builder.io/qwik-city": "1.5.1",
+    "@builder.io/qwik": "1.2.17",
+    "@builder.io/qwik-city": "1.2.17",
     "@nx/eslint-plugin": "17.0.3",
     "@nx/js": "17.0.3",
     "@nx/linter": "17.0.3",
@@ -24,9 +24,9 @@
     "@typescript-eslint/parser": "^6.10.0",
     "@vitest/ui": "^0.34.6",
     "autoprefixer": "~10.4.16",
-    "eslint": "~8.57.0",
+    "eslint": "~8.53.0",
     "eslint-config-prettier": "9.0.0",
-    "eslint-plugin-qwik": "1.5.1",
+    "eslint-plugin-qwik": "1.2.17",
     "jsdom": "~22.1.0",
     "node-fetch": "~3.3.2",
     "nx": "17.0.3",
