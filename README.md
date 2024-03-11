@@ -1,8 +1,8 @@
-# Qwik Microfrontends
+# Qwik TikTok Microfrontends
 
 ![homepage](docs/homepage.png)
 
-node >= v18.10.0 required
+node >= v20.11.1 required
 
 ## The project contains 3 apps ( Host, Home, Checkout )
 
