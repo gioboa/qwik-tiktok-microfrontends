@@ -4,8 +4,8 @@ import {
   SSRStreamBlock,
   StreamWriter,
 } from '@builder.io/qwik';
-import { fixRemoteHTMLInDevMode } from 'apps/host/shared';
-import { type RemoteData } from '../../../../../shared/remotes';
+import { type RemoteData } from '../../../../shared/remotes';
+import { fixRemoteHTMLInDevMode } from '../../shared';
 
 export interface Props {
   remote: RemoteData;
