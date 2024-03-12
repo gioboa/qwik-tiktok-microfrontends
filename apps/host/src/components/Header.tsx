@@ -1,41 +1,42 @@
-import { component$, useContext } from '@builder.io/qwik';
-import { Link, useLocation } from '@builder.io/qwik-city';
+import { component$, useContext, useSignal } from '@builder.io/qwik';
+import { Link, useLocation, useNavigate } from '@builder.io/qwik-city';
 import { StoreContext } from '../routes/layout';
-import { AiOutlinePlus } from './AiOutlinePlus';
-import { BiSearch } from './BiSearch';
-import { BsThreeDotsVertical } from './BsThreeDotsVertical';
+import { createBucketUrl } from '../utils/actions';
+import { LogOutIcon } from './icons/LogOutIcon';
+import { OutlinePlusIcon } from './icons/OutlinePlusIcon';
+import { SearchIcon } from './icons/SearchIcon';
+import { ThreeDotsVerticalIcon } from './icons/ThreeDotsVerticalIcon';
+import { UserIcon } from './icons/UserIcon';
 
 export const Header = component$(() => {
   const location = useLocation();
   const appStore = useContext(StoreContext);
-  // const userContext = useUser()
-  // const router = useRouter()
-  // const pathname = usePathname()
+  const navigate = useNavigate();
 
-  // const [searchProfiles, setSearchProfiles] = useState<RandomUsers[]>([])
-  // let [showMenu, setShowMenu] = useState<boolean>(false)
-  // let { setIsLoginOpen, setIsEditProfileOpen } = useGeneralStore()
+  //const [searchProfiles, setSearchProfiles] = useState<RandomUsers[]>([]);
+  const showMenuSig = useSignal<boolean>(false);
 
-  // useEffect(() => { setIsEditProfileOpen(false) }, [])
-
-  // const handleSearchName = debounce(async (event: { target: { value: string } }) => {
-  //     if (event.target.value == "") return setSearchProfiles([])
+  // const handleSearchName = debounce(
+  //   async (event: { target: { value: string } }) => {
+  //     if (event.target.value == '') return setSearchProfiles([]);
 
   //     try {
-  //         const result = await useSearchProfilesByName(event.target.value)
-  //         if (result) return setSearchProfiles(result)
-  //         setSearchProfiles([])
+  //       const result = await useSearchProfilesByName(event.target.value);
+  //       if (result) return setSearchProfiles(result);
+  //       setSearchProfiles([]);
   //     } catch (error) {
-  //         console.log(error)
-  //         setSearchProfiles([])
-  //         alert(error)
+  //       console.log(error);
+  //       setSearchProfiles([]);
+  //       alert(error);
   //     }
-  // }, 500)
+  //   },
+  //   500,
+  // );
 
   // const goTo = () => {
-  //     if (!userContext?.user) return setIsLoginOpen(true)
-  //     router.push('/upload')
-  // }
+  //   if (!userContext?.user) return setIsLoginOpen(true);
+  //   router.push('/upload');
+  // };
 
   return (
     <div class="fixed bg-white z-30 flex items-center w-full border-b h-[60px]">
@@ -83,7 +84,7 @@ export const Header = component$(() => {
           ) : null} */}
 
           <div class="px-3 py-1 flex items-center border-l border-l-gray-300">
-            <BiSearch />
+            <SearchIcon />
           </div>
         </div>
 
@@ -94,64 +95,66 @@ export const Header = component$(() => {
             }}
             class="flex items-center border rounded-sm py-[6px] hover:bg-gray-100 pl-1.5"
           >
-            <AiOutlinePlus />
+            <OutlinePlusIcon />
             <span class="px-2 font-medium text-[15px]">Upload</span>
           </button>
 
-          {/* {!userContext?.user?.id ? ( */}
-          <div class="flex items-center">
-            <button
-              onClick$={() => {
-                appStore.isLoginOpen = true;
-              }}
-              class="flex items-center bg-[#F02C56] text-white border rounded-md px-3 py-[6px]"
-            >
-              <span class="whitespace-nowrap mx-4 font-medium text-[15px]">
-                Log in
-              </span>
-            </button>
-            <BsThreeDotsVertical />
-          </div>
-          {/* //   ) : (
-        //     <div class="flex items-center">
-        //       <div class="relative">
-        //         <button
-        //           onClick={() => setShowMenu((showMenu = !showMenu))}
-        //           class="mt-1 border border-gray-200 rounded-full"
-        //         >
-        //           <img
-        //             class="rounded-full w-[35px] h-[35px]"
-        //             src={useCreateBucketUrl(userContext?.user?.image || '')}
-        //           />
-        //         </button>
+          {!appStore.user?.id ? (
+            <div class="flex items-center">
+              <button
+                onClick$={() => {
+                  appStore.isLoginOpen = true;
+                }}
+                class="flex items-center bg-[#F02C56] text-white border rounded-md px-3 py-[6px]"
+              >
+                <span class="whitespace-nowrap mx-4 font-medium text-[15px]">
+                  Log in
+                </span>
+              </button>
+              <ThreeDotsVerticalIcon />
+            </div>
+          ) : (
+            <div class="flex items-center">
+              <div class="relative">
+                <button
+                  onClick$={() => (showMenuSig.value = !showMenuSig.value)}
+                  class="mt-1 border border-gray-200 rounded-full"
+                >
+                  <img
+                    class="rounded-full w-[35px] h-[35px]"
+                    width={35}
+                    height={35}
+                    src={createBucketUrl(appStore.user.image || '')}
+                  />
+                </button>
 
-        //         {showMenu ? (
-        //           <div class="absolute bg-white rounded-lg py-1.5 w-[200px] shadow-xl border top-[40px] right-0">
-        //             <button
-        //               onClick={() => {
-        //                 router.push(`/profile/${userContext?.user?.id}`);
-        //                 setShowMenu(false);
-        //               }}
-        //               class="flex items-center w-full justify-start py-3 px-2 hover:bg-gray-100 cursor-pointer"
-        //             >
-        //               <BiUser size="20" />
-        //               <span class="pl-2 font-semibold text-sm">Profile</span>
-        //             </button>
-        //             <button
-        //               onClick={async () => {
-        //                 await userContext?.logout();
-        //                 setShowMenu(false);
-        //               }}
-        //               class="flex items-center justify-start w-full py-3 px-1.5 hover:bg-gray-100 border-t cursor-pointer"
-        //             >
-        //               <FiLogOut size={20} />
-        //               <span class="pl-2 font-semibold text-sm">Log out</span>
-        //             </button>
-        //           </div>
-        //         ) : null}
-        //       </div>
-        //     </div>
-        //   )} */}
+                {showMenuSig.value ? (
+                  <div class="absolute bg-white rounded-lg py-1.5 w-[200px] shadow-xl border top-[40px] right-0">
+                    <button
+                      onClick$={() => {
+                        navigate(`/profile/${appStore.user?.id}`);
+                        showMenuSig.value = false;
+                      }}
+                      class="flex items-center w-full justify-start py-3 px-2 hover:bg-gray-100 cursor-pointer"
+                    >
+                      <UserIcon />
+                      <span class="pl-2 font-semibold text-sm">Profile</span>
+                    </button>
+                    <button
+                      onClick$={async () => {
+                        // await userContext?.logout();
+                        showMenuSig.value = false;
+                      }}
+                      class="flex items-center justify-start w-full py-3 px-1.5 hover:bg-gray-100 border-t cursor-pointer"
+                    >
+                      <LogOutIcon />
+                      <span class="pl-2 font-semibold text-sm">Log out</span>
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

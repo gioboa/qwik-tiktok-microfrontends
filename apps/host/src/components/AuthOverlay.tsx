@@ -1,6 +1,6 @@
 import { component$, useContext, useSignal } from '@builder.io/qwik';
 import { StoreContext } from '../routes/layout';
-import { AiOutlineClose } from './AiOutlineClose';
+import { OutlineCloseIcon } from './icons/OutlineCloseIcon';
 import { Login } from './Login';
 import { Register } from './Register';
 
@@ -23,7 +23,7 @@ export const AuthOverlay = component$(() => {
               onClick$={() => (appStore.isLoginOpen = false)}
               class="p-1.5 rounded-full bg-gray-100"
             >
-              <AiOutlineClose />
+              <OutlineCloseIcon />
             </button>
           </div>
 
