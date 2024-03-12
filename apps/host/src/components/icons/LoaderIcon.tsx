@@ -1,6 +1,4 @@
-import { component$ } from '@builder.io/qwik';
-
-export const Loader = component$(() => {
+export const LoaderIcon = () => {
   return (
     <svg
       stroke="currentColor"
@@ -24,4 +22,4 @@ export const Loader = component$(() => {
       <circle cx="17.657" cy="17.658" r="2"></circle>
     </svg>
   );
-});
+};

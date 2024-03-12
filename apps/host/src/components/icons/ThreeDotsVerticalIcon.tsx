@@ -1,6 +1,4 @@
-import { component$ } from '@builder.io/qwik';
-
-export const BsThreeDotsVertical = component$(() => {
+export const ThreeDotsVerticalIcon = () => {
   return (
     <svg
       stroke="currentColor"
@@ -16,4 +14,4 @@ export const BsThreeDotsVertical = component$(() => {
       <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path>
     </svg>
   );
-});
+};

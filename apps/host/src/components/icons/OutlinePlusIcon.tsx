@@ -1,6 +1,4 @@
-import { component$ } from '@builder.io/qwik';
-
-export const AiOutlinePlus = component$(() => {
+export const OutlinePlusIcon = () => {
   return (
     <svg
       stroke="currentColor"
@@ -17,4 +15,4 @@ export const AiOutlinePlus = component$(() => {
       <path d="M192 474h672q8 0 8 8v60q0 8-8 8H160q-8 0-8-8v-60q0-8 8-8Z"></path>
     </svg>
   );
-});
+};
