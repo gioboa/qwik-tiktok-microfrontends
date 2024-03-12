@@ -1,11 +1,13 @@
 import { Account, Client, Databases, ID, Query, Storage } from 'appwrite';
 
-const client = new Client()
-  .setEndpoint(String(import.meta.env.VITE_APPWRITE_URL))
-  .setProject(String(import.meta.env.VITE_ENDPOINT));
+const awUserClient = (jwt?: string) =>
+  new Client()
+    .setEndpoint(String(import.meta.env.VITE_APPWRITE_URL))
+    .setProject(String(import.meta.env.VITE_ENDPOINT))
+    .setJWT(jwt || '');
 
-const account = new Account(client);
-const database = new Databases(client);
-const storage = new Storage(client);
+const account = new Account(awUserClient());
+const database = new Databases(awUserClient());
+const storage = new Storage(awUserClient());
 
-export { ID, Query, account, client, database, storage };
+export { ID, Query, account, awUserClient as client, database, storage };

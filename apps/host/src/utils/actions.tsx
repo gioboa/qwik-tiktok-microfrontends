@@ -33,3 +33,13 @@ export const getProfileByUserId = async (userId: string) => {
     bio: documents[0]?.bio,
   };
 };
+
+export const createBucketUrl = (fileId: string) => {
+  const url = process.env.VITE_APPWRITE_URL;
+  const id = process.env.VITE_BUCKET_ID;
+  const endpoint = process.env.VITE_ENDPOINT;
+
+  if (!url || !id || !endpoint || !fileId) return '';
+
+  return `${url}/storage/buckets/${id}/files/${fileId}/view?project=${endpoint}`;
+};
