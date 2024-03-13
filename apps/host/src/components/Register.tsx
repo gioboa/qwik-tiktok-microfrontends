@@ -1,6 +1,7 @@
 import { $, component$, useContext, useSignal } from '@builder.io/qwik';
 import { useNavigate } from '@builder.io/qwik-city';
 import { StoreContext } from '../routes/layout';
+import { showError } from '../utils';
 import { ID, account } from '../utils/AppWriteClient';
 import { createProfile, getProfileByUserId } from '../utils/actions';
 import { ShowErrorObject } from './Login';
@@ -16,18 +17,6 @@ export const Register = component$(() => {
   const passwordSig = useSignal<string | ''>('');
   const confirmPasswordSig = useSignal<string | ''>('');
   const errorSig = useSignal<ShowErrorObject | null>(null);
-
-  const showError = (type: string) => {
-    if (
-      errorSig &&
-      Object.entries(errorSig).length > 0 &&
-      errorSig.value &&
-      errorSig.value.type == type
-    ) {
-      return errorSig.value.message;
-    }
-    return '';
-  };
 
   const validate = $(() => {
     errorSig.value = null;
@@ -125,7 +114,7 @@ export const Register = component$(() => {
               nameSig.value = value;
             }}
             inputType="text"
-            error={showError('name')}
+            error={showError('name', errorSig)}
           />
         </div>
 
@@ -137,7 +126,7 @@ export const Register = component$(() => {
               emailSig.value = value;
             }}
             inputType="email"
-            error={showError('email')}
+            error={showError('email', errorSig)}
           />
         </div>
 
@@ -149,7 +138,7 @@ export const Register = component$(() => {
               passwordSig.value = value;
             }}
             inputType="password"
-            error={showError('password')}
+            error={showError('password', errorSig)}
           />
         </div>
 
@@ -161,7 +150,7 @@ export const Register = component$(() => {
               confirmPasswordSig.value = value;
             }}
             inputType="password"
-            error={showError('confirmPassword')}
+            error={showError('confirmPassword', errorSig)}
           />
         </div>
 
