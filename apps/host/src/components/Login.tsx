@@ -1,6 +1,6 @@
 import { $, component$, useContext, useSignal } from '@builder.io/qwik';
 import { StoreContext } from '../routes/layout';
-import { setCookie } from '../utils';
+import { setCookie, showError } from '../utils';
 import { account } from '../utils/AppWriteClient';
 import { getProfileByUserId } from '../utils/actions';
 import { TextInput } from './TextInput';
@@ -18,18 +18,6 @@ export const Login = component$(() => {
   const emailSig = useSignal<string | ''>('');
   const passwordSig = useSignal<string | ''>('');
   const errorSig = useSignal<ShowErrorObject | null>(null);
-
-  const showError = (type: string) => {
-    if (
-      errorSig &&
-      Object.entries(errorSig).length > 0 &&
-      errorSig.value &&
-      errorSig.value!.type === type
-    ) {
-      return errorSig.value.message;
-    }
-    return '';
-  };
 
   const validate = $(() => {
     errorSig.value = null;
@@ -84,7 +72,7 @@ export const Login = component$(() => {
               emailSig.value = value;
             }}
             inputType="email"
-            error={showError('email')}
+            error={showError('email', errorSig)}
           />
         </div>
 
@@ -96,7 +84,7 @@ export const Login = component$(() => {
               passwordSig.value = value;
             }}
             inputType="password"
-            error={showError('password')}
+            error={showError('password', errorSig)}
           />
         </div>
 
