@@ -10,8 +10,16 @@
   },
   "private": true,
   "dependencies": {
+    "@builder.io/qwik-react": "^0.5.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "appwrite": "11.0.1",
-    "qwik-nx": "2.0.1"
+    "image-js": "^0.35.5",
+    "qwik-image": "^0.0.8",
+    "qwik-nx": "2.0.1",
+    "react": "^18.2.0",
+    "react-advanced-cropper": "^0.19.6",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@builder.io/qwik": "1.2.17",
