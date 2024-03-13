@@ -1,12 +1,19 @@
-export const LoaderIcon = () => {
+import { component$ } from '@builder.io/qwik';
+
+type Props = {
+  class?: string;
+  color?: string;
+};
+
+export const LoaderIcon = component$<Props>(({ class: _class, color }) => {
   return (
     <svg
       stroke="currentColor"
       fill="currentColor"
       stroke-width="0"
       viewBox="0 0 24 24"
-      class="animate-spin"
-      color="#ffffff"
+      class={_class || 'animate-spin'}
+      color={color || '#ffffff'}
       height="25"
       width="25"
       xmlns="http://www.w3.org/2000/svg"
@@ -22,4 +29,4 @@ export const LoaderIcon = () => {
       <circle cx="17.657" cy="17.658" r="2"></circle>
     </svg>
   );
-};
+});
