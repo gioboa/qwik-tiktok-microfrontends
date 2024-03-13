@@ -1,4 +1,5 @@
 import {
+  $,
   component$,
   createContextId,
   Slot,
@@ -7,7 +8,9 @@ import {
 } from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
 import { Account } from 'appwrite';
+import { useImageProvider } from 'qwik-image';
 import { AuthOverlay } from '../components/AuthOverlay';
+import { EditProfileOverlay } from '../components/EditProfileOverlay';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { getProfileByUserId } from '../utils/actions';
@@ -24,6 +27,7 @@ export type UserStore = {
 
 type Store = {
   isLoginOpen: boolean;
+  isEditProfileOpen: boolean;
   user?: UserStore;
 };
 
@@ -35,8 +39,8 @@ export const useUser = routeLoader$(async ({ cookie }) => {
   }
   try {
     if (cookie.get(JWT_COOKIE_KEY)?.value) {
-      const cl = client(cookie.get(JWT_COOKIE_KEY)!.value);
-      const response = await new Account(cl).get();
+      const cli = client(cookie.get(JWT_COOKIE_KEY)!.value);
+      const response = await new Account(cli).get();
       const profile = await getProfileByUserId(response?.$id);
       return profile;
     }
@@ -48,18 +52,23 @@ export const useUser = routeLoader$(async ({ cookie }) => {
 export default component$(() => {
   const appStore = useStore<Store>({
     isLoginOpen: false,
+    isEditProfileOpen: false,
     user: useUser().value,
   });
   useContextProvider(StoreContext, appStore);
 
+  useImageProvider({
+    imageTransformer$: $(({ src }) => src),
+  });
+
   return (
     <>
       <Header />
-      <main class="min-h-screen mt-18 pt-10 bg-slate-900">
+      <main class="min-h-screen pt-20 px-8 bg-[#F8F8F8]">
         <Slot />
       </main>
       {appStore.isLoginOpen && <AuthOverlay />}
-      {JSON.stringify(appStore.user)}
+      {appStore.isEditProfileOpen && <EditProfileOverlay />}
       <Footer />
     </>
   );
