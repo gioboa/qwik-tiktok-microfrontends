@@ -18,5 +18,5 @@
     "noEmit": true,
     "types": ["node", "vite/client", "vitest"]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "../../libs/ui/src/lib/OutlineCloseIcon.tsx"]
 }
