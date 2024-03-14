@@ -1,8 +1,6 @@
-import { $, component$, useContext, useSignal } from '@builder.io/qwik';
-import { StoreContext } from '../routes/layout';
+import { $, component$, useSignal } from '@builder.io/qwik';
 import { setCookie, showError } from '../utils';
 import { account } from '../utils/AppWriteClient';
-import { getProfileByUserId } from '../utils/actions';
 import { TextInput } from './TextInput';
 import { LoaderIcon } from './icons/LoaderIcon';
 
@@ -12,8 +10,6 @@ export interface ShowErrorObject {
 }
 
 export const Login = component$(() => {
-  const appStore = useContext(StoreContext);
-
   const loadingSig = useSignal<boolean>(false);
   const emailSig = useSignal<string | ''>('');
   const passwordSig = useSignal<string | ''>('');
@@ -45,13 +41,7 @@ export const Login = component$(() => {
       const token = await account.createJWT();
       setCookie(token.jwt);
 
-      const response = await account.get();
-      const profile = await getProfileByUserId(response?.$id);
-
-      appStore.user = { ...profile };
-
-      loadingSig.value = false;
-      appStore.isLoginOpen = false;
+      location.reload();
     } catch (error) {
       console.log(error);
       loadingSig.value = false;
