@@ -1,8 +1,8 @@
 import { component$, useContext, useSignal } from '@builder.io/qwik';
+import { OutlineCloseIcon } from '@qwik-tiktok-microfrontends/ui';
 import { StoreContext } from '../routes/layout';
 import { Login } from './Login';
 import { Register } from './Register';
-import { OutlineCloseIcon } from './icons/OutlineCloseIcon';
 
 export const AuthOverlay = component$(() => {
   const appStore = useContext(StoreContext);

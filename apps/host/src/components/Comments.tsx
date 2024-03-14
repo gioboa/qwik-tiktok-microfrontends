@@ -1,9 +1,9 @@
 import { $, QRL, component$, useContext, useSignal } from '@builder.io/qwik';
+import { LoaderIcon } from '@qwik-tiktok-microfrontends/ui';
 import { StoreContext } from '../routes/layout';
 import { CommentWithProfile } from '../routes/post/[userId]/[postId]';
 import { createComment } from '../utils/actions';
 import { SingleComment } from './SingleComment';
-import { LoaderIcon } from './icons/LoaderIcon';
 
 type Props = {
   postId: string;

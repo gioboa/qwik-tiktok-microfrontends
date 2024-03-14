@@ -2,6 +2,7 @@ import { $, component$, useContext, useSignal } from '@builder.io/qwik';
 import { Link, useNavigate } from '@builder.io/qwik-city';
 import moment from 'moment';
 import { Image } from 'qwik-image';
+import { LoaderIcon } from '@qwik-tiktok-microfrontends/ui';
 import { StoreContext } from '../routes/layout';
 import {
   createBucketUrl,
@@ -12,7 +13,6 @@ import {
 import { Like, Profile } from './PostMain';
 import { Post } from './PostUser';
 import { FillHeartIcon } from './icons/FillHeartIcon';
-import { LoaderIcon } from './icons/LoaderIcon';
 import { MusicIcon } from './icons/MusicIcon';
 import { TrashIcon } from './icons/TrashIcon';
 

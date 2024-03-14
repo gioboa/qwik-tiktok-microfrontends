@@ -7,6 +7,7 @@ import {
   useSignal,
 } from '@builder.io/qwik';
 import { useNavigate } from '@builder.io/qwik-city';
+import { LoaderIcon, OutlineCloseIcon } from '@qwik-tiktok-microfrontends/ui';
 import { StoreContext } from '../routes/layout';
 import { showError } from '../utils';
 import {
@@ -18,8 +19,6 @@ import {
 } from '../utils/actions';
 import { Cropper } from './Cropper';
 import { TextInput } from './TextInput';
-import { LoaderIcon } from './icons/LoaderIcon';
-import { OutlineCloseIcon } from './icons/OutlineCloseIcon';
 import { PencilIcon } from './icons/PencilIcon';
 
 export type CropperDimensions = {
