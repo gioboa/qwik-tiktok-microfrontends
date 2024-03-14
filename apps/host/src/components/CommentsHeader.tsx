@@ -92,7 +92,7 @@ export const CommentsHeader = component$<Props>(({ profile, post, likes }) => {
             </Link>
 
             <div class="relative z-0 text-[13px] -mt-5 font-light">
-              {profile.name}
+              {post.text}
               <span class="relative -top-[2px] text-[30px] pl-1 pr-0.5 ">
                 .
               </span>
@@ -119,12 +119,13 @@ export const CommentsHeader = component$<Props>(({ profile, post, likes }) => {
         )}
       </div>
 
-      <p class="px-8 mt-4 text-sm">{post.text}</p>
-
-      <p class="flex item-center gap-2 px-8 mt-4 text-sm font-bold">
+      <div class="lex item-center gap-2 px-8 mt-4 text-[14px] text-gray-500 pb-0.5">
+        #fun #cool #SuperAwesome
+      </div>
+      <div class="flex item-center gap-2 px-8 mt-4 text-sm font-bold">
         <MusicIcon />
-        original sound - {profile.name}
-      </p>
+        original sound
+      </div>
 
       <div class="flex items-center px-8 mt-8">
         <div class="pb-4 text-center flex items-center">
