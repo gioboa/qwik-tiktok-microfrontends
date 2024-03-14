@@ -70,6 +70,24 @@
       "options": {
         "lintFilePatterns": ["apps/host/**/*.{ts,tsx,js,jsx}"]
       }
+    },
+    "serve-all": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "nx serve host",
+            "color": "green",
+            "prefix": "HOST    |"
+          },
+          {
+            "command": "nx serve upload",
+            "color": "blue",
+            "prefix": "UPLOAD    |"
+          }
+        ],
+        "parallel": true
+      }
     }
   },
   "tags": []
