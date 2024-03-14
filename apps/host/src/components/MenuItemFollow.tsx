@@ -26,7 +26,7 @@ export const MenuItemFollow = component$<Props>(({ user }) => {
         <div class="lg:pl-2.5 lg:block hidden">
           <div class="flex items-center">
             <p class="font-bold text-[14px] truncate">{user?.name}</p>
-            <p class="ml-1 rounded-full bg-[#58D5EC] h-[14px] relative">
+            <p class="ml-1 rounded-full bg-[#58D5EC] h-[16px] relative">
               <OutlineCheckCircleIcon
                 class="relative p-[3px]"
                 color="#FFFFFF"
