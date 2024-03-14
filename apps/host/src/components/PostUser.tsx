@@ -11,7 +11,7 @@ type Props = {
 
 export type Post = {
   id: string;
-  user_id: string;
+  userId: string;
   video_url: string;
   text: string;
   created_at: string;
@@ -29,10 +29,9 @@ export const PostUser = component$<Props>(({ post }) => {
       {post.video_url && (
         <Link
           class={{ hidden: videoIsLoadingSig.value }}
-          href={`/post/${post.id}/${post.user_id}`}
+          href={`/post/${post.userId}/${post.id}/`}
         >
           <video
-            id={`video${post.id}`}
             muted
             loop
             class="aspect-[3/4] object-cover rounded-md"
