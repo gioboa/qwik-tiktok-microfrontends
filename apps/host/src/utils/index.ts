@@ -1,6 +1,6 @@
 import { Signal } from '@builder.io/qwik';
-import { JWT_COOKIE_KEY } from './constants';
 import { ShowErrorObject } from '../components/EditProfileOverlay';
+import { JWT_COOKIE_KEY } from './constants';
 
 export const setCookie = (value: string) => {
   const date = new Date();
@@ -23,3 +23,6 @@ export const showError = (
   }
   return '';
 };
+
+export const randomInt = (min: number, max: number) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
