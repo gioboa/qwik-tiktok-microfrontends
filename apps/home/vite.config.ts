@@ -5,16 +5,16 @@ import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  cacheDir: '../../node_modules/.vite/apps/home',
+  cacheDir: '../../node_modules/.vite/apps/upload',
   plugins: [
     qwikNxVite(),
-    qwikCity({ basePathname: '/home/' } as any),
+    qwikCity({ basePathname: '/upload/' } as any),
     qwikVite({
       client: {
-        outDir: '../../dist/apps/home/client',
+        outDir: '../../dist/apps/upload/client',
       },
       ssr: {
-        outDir: '../../dist/apps/home/server',
+        outDir: '../../dist/apps/upload/server',
       },
     }),
     tsconfigPaths({ root: '../../' }),
@@ -29,13 +29,5 @@ export default defineConfig({
     headers: {
       'Cache-Control': 'public, max-age=600',
     },
-  },
-  test: {
-    globals: true,
-    cache: {
-      dir: '../../node_modules/.vitest',
-    },
-    environment: 'node',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
   },
 });

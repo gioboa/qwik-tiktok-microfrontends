@@ -14,7 +14,7 @@ import { renderToStream, RenderToStreamOptions } from '@builder.io/qwik/server';
 import { manifest } from '@qwik-client-manifest';
 import Root from './root';
 
-const base = '/home/build/';
+const base = '/upload/build/';
 
 export default function (opts: RenderToStreamOptions) {
   const url = new URL(opts.serverData!.url);

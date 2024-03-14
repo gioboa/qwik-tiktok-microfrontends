@@ -1,14 +1,14 @@
 {
-  "name": "home",
+  "name": "upload",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/home/src",
+  "sourceRoot": "apps/upload/src",
   "targets": {
     "build": {
       "executor": "qwik-nx:build",
       "options": {
-        "runSequence": ["home:build.client", "home:build.ssr"],
-        "outputPath": "dist/apps/home"
+        "runSequence": ["upload:build.client", "upload:build.ssr"],
+        "outputPath": "dist/apps/upload"
       },
       "configurations": {
         "preview": {}
@@ -17,15 +17,15 @@
     "build.client": {
       "executor": "@nx/vite:build",
       "options": {
-        "outputPath": "dist/apps/home",
-        "configFile": "apps/home/vite.config.ts"
+        "outputPath": "dist/apps/upload",
+        "configFile": "apps/upload/vite.config.ts"
       }
     },
     "build.ssr": {
       "executor": "@nx/vite:build",
       "defaultConfiguration": "preview",
       "options": {
-        "outputPath": "dist/apps/home"
+        "outputPath": "dist/apps/upload"
       },
       "configurations": {
         "preview": {
@@ -37,22 +37,22 @@
     "preview": {
       "executor": "@nx/vite:preview-server",
       "options": {
-        "buildTarget": "home:build",
+        "buildTarget": "upload:build",
         "port": 5174
       }
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": ["../../coverage/apps/home"],
+      "outputs": ["../../coverage/apps/upload"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/apps/home"
+        "reportsDirectory": "../../coverage/apps/upload"
       }
     },
     "serve": {
       "executor": "@nx/vite:dev-server",
       "options": {
-        "buildTarget": "home:build.client",
+        "buildTarget": "upload:build.client",
         "mode": "ssr",
         "port": 5174
       }
@@ -61,14 +61,14 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "node --inspect-brk ../../node_modules/vite/bin/vite.js --mode ssr --force",
-        "cwd": "apps/home"
+        "cwd": "apps/upload"
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/home/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/upload/**/*.{ts,tsx,js,jsx}"]
       }
     }
   },

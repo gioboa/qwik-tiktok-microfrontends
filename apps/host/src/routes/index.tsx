@@ -1,7 +1,7 @@
 import { component$ } from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
-import { getAllPosts } from '../utils/actions';
 import { PostMain } from '../components/PostMain';
+import { getAllPosts } from '../utils/actions';
 
 export const useAllPost = routeLoader$(async () => {
   return await getAllPosts();
@@ -17,10 +17,3 @@ export default component$(() => {
     </div>
   );
 });
-
-{
-  /* <div class="flex mt-12" style="justify-content: flex-end">
-        <CartCounter count={cartQtySignal.value} />
-      </div>
-      <RemoteMfe remote={remotes.home} removeLoader={true} /> */
-}
