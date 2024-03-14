@@ -1,6 +1,7 @@
 import { $, component$, useContext, useSignal } from '@builder.io/qwik';
 import { useNavigate } from '@builder.io/qwik-city';
 import { StoreContext } from '../routes/layout';
+import { randomInt } from '../utils';
 import { createLike, deleteLike } from '../utils/actions';
 import { Like, PostWithInfo } from './PostMain';
 import { CommentsIcon } from './icons/CommentsIcon';
@@ -81,7 +82,9 @@ export const PostMainLikes = component$<Props>(({ post }) => {
           <div class="rounded-full bg-gray-200 p-2 cursor-pointer">
             <ShareIcon />
           </div>
-          <span class="text-xs text-gray-800 font-semibold">55</span>
+          <span class="text-xs text-gray-800 font-semibold">
+            {randomInt(100, 400)}
+          </span>
         </button>
       </div>
     </div>
