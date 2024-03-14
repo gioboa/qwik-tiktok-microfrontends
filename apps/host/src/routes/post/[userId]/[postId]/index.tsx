@@ -1,10 +1,5 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
-import {
-  Link,
-  routeLoader$,
-  useLocation,
-  useNavigate,
-} from '@builder.io/qwik-city';
+import { Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { OutlineCloseIcon } from '@qwik-tiktok-microfrontends/ui';
 import { Image } from 'qwik-image';
 import { Comments } from '../../../../components/Comments';
@@ -45,17 +40,17 @@ export const useGetProfileByUserId = routeLoader$(async ({ params }) => {
 });
 
 export default component$(() => {
-  const navigate = useNavigate();
   const location = useLocation();
   const posts = useGetPostsByUser();
-  const likes = useGetLikesByPostId();
+  const likesSig = useSignal(useGetLikesByPostId().value);
   const profile = useGetProfileByUserId();
   const commentsSig = useSignal(useGetCommentsByPostId().value);
   const index = posts.value.findIndex((p) => p.id === location.params.postId);
   const currentPost = posts.value[index];
 
-  const refreshComments = $(async () => {
+  const refresh = $(async () => {
     commentsSig.value = await getCommentsByPostId(location.params.postId);
+    likesSig.value = await getLikesByPostId(location.params.postId);
   });
 
   return (
@@ -71,22 +66,22 @@ export default component$(() => {
         <div>
           <button
             disabled={index === 0}
-            onClick$={() =>
-              navigate(
-                `/post/${location.params.userId}/${posts.value[index - 1].id}/`,
-              )
-            }
+            onClick$={() => {
+              window.location.href = `/post/${location.params.userId}/${
+                posts.value[index - 1].id
+              }/`;
+            }}
             class="absolute z-20 right-4 top-4 flex items-center justify-center rounded-full bg-gray-700 p-1.5 hover:bg-gray-800  disabled:cursor-not-allowed disabled:bg-black"
           >
             <UpIcon />
           </button>
           <button
             disabled={index === posts.value.length - 1}
-            onClick$={() =>
-              navigate(
-                `/post/${location.params.userId}/${posts.value[index + 1].id}/`,
-              )
-            }
+            onClick$={() => {
+              window.location.href = `/post/${location.params.userId}/${
+                posts.value[index + 1].id
+              }/`;
+            }}
             class="absolute z-20 right-4 top-20 flex items-center justify-center rounded-full bg-gray-700 p-1.5 hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-black"
           >
             <DownIcon />
@@ -111,7 +106,7 @@ export default component$(() => {
         <div class="bg-black bg-opacity-70 lg:min-w-[480px] z-10 relative">
           {currentPost?.video_url && (
             <video
-              autoPlay
+              autoplay
               controls
               loop
               muted
@@ -130,15 +125,15 @@ export default component$(() => {
         {currentPost && (
           <CommentsHeader
             profile={profile.value}
-            likes={likes.value}
+            likes={likesSig.value}
             post={currentPost}
           />
         )}
 
         <Comments
-          postId={location.params.postId}
+          postId={currentPost.id}
           comments={commentsSig.value}
-          refreshComments$={refreshComments}
+          refreshComments$={refresh}
         />
       </div>
     </div>
