@@ -83,7 +83,7 @@ export default component$(() => {
         </div>
       </div>
 
-      <p class="pt-4 mr-4 text-gray-500 font-light text-[15px] pl-1.5 max-w-[500px]">
+      <p class="pt-4 mr-4 text-gray-500 font-light text-[15px] pl-0.5 max-w-[800px]">
         {data.value.profile.bio}
       </p>
 

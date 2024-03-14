@@ -216,7 +216,7 @@ export const EditProfileOverlay = component$(() => {
                       cols={30}
                       rows={4}
                       bind:value={userBioSig}
-                      maxLength={80}
+                      maxLength={100}
                       class="resize-none w-full bg-[#F1F1F2] text-gray-800 border border-gray-300 rounded-md py-2.5 px-3 focus:outline-none"
                     ></textarea>
                     <p class="text-[11px] text-gray-500">

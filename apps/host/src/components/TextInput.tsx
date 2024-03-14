@@ -33,7 +33,7 @@ export const TextInput = component$(
                 focus:outline-none
             "
           value={string || ''}
-          onChange$={(event) => onUpdate$(event.target.value)}
+          onChange$={(_, target) => onUpdate$(target.value)}
           type={inputType}
           autoComplete="off"
         />

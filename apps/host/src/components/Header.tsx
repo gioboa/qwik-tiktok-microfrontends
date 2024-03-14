@@ -1,5 +1,5 @@
 import { component$, useContext, useSignal, useTask$ } from '@builder.io/qwik';
-import { Link, useLocation, useNavigate } from '@builder.io/qwik-city';
+import { Link, useNavigate } from '@builder.io/qwik-city';
 import {
   OutlinePlusIcon,
   SearchIcon,
@@ -18,7 +18,6 @@ export type RandomUsers = {
 };
 
 export const Header = component$(() => {
-  const location = useLocation();
   const appStore = useContext(StoreContext);
   const navigate = useNavigate();
   const showMenuSig = useSignal<boolean>(false);
@@ -99,7 +98,7 @@ export const Header = component$(() => {
               if (!appStore.user) {
                 return (appStore.isLoginOpen = true);
               }
-              navigate('/upload/');
+              location.href = '/upload/';
             }}
             class="flex items-center border rounded-sm py-[6px] hover:bg-gray-100 pl-1.5"
           >
