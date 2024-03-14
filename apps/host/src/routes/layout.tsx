@@ -78,9 +78,6 @@ export default component$(() => {
     <Slot />
   ) : (
     <div class="h-full w-full">
-      {location.url.pathname === '/upload/' && (
-        <div class="absolute h-full w-full bg-gray-400 opacity-10 z-40" />
-      )}
       <Header />
       <div
         class={`flex justify-between mx-auto w-full lg:px-2.5 px-0 ${
