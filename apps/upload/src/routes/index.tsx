@@ -6,7 +6,6 @@ import {
   useContext,
   useSignal,
 } from '@builder.io/qwik';
-import { useNavigate } from '@builder.io/qwik-city';
 import {
   LoaderIcon,
   OutlineCheckCircleIcon,
@@ -24,7 +23,6 @@ export type UploadError = {
 };
 
 export default component$(() => {
-  const navigate = useNavigate();
   const appStore = useContext(UploadContext);
 
   const fileDisplaySig = useSignal<string>('');
@@ -56,7 +54,7 @@ export default component$(() => {
 
     try {
       await createPost(fileSig.value, appStore.user.userId, captionSig.value);
-      navigate(`/profile/${appStore.user.id}`);
+      location.href = `/profile/${appStore.user.id}`;
       isUploadingSig.value = false;
     } catch (error) {
       console.log(error);
@@ -107,7 +105,7 @@ export default component$(() => {
               src="/images/tiktok-logo-white.png"
             />
             <video
-              autoPlay
+              autoplay
               loop
               muted
               class="absolute rounded-xl object-cover z-10 p-[13px] w-full h-full"
@@ -165,7 +163,7 @@ export default component$(() => {
                 }
               }}
               hidden
-              accept=".mp4"
+              accept=".webm"
             />
           </label>
         )}
