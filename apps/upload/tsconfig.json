@@ -18,5 +18,10 @@
     "noEmit": true,
     "types": ["node", "vite/client", "vitest"]
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*",
+    "../../libs/ui/src/lib/SearchIcon.tsx",
+    "../../libs/ui/src/lib/ThreeDotsVerticalIcon.tsx",
+    "../../libs/ui/src/lib/OutlinePlusIcon.tsx"
+  ]
 }
