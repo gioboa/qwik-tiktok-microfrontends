@@ -217,7 +217,7 @@ export const getAllPosts = async () => {
   return result;
 };
 
-const getLikesByPostId = async (postId: string) => {
+export const getLikesByPostId = async (postId: string) => {
   const response = await database.listDocuments(
     String(import.meta.env.VITE_DATABASE_ID),
     String(import.meta.env.VITE_COLLECTION_ID_LIKE),
@@ -308,5 +308,28 @@ export const createComment = async (
       text: comment,
       created_at: new Date().toISOString(),
     },
+  );
+};
+
+export const deletePostById = async (postId: string, currentImage: string) => {
+  const likes = await getLikesByPostId(postId);
+  likes.forEach(async (like) => {
+    await deleteLike(like.id);
+  });
+
+  const comments = await getCommentsByPostId(postId);
+  comments.forEach(async (comment) => {
+    await deleteComment(comment.id);
+  });
+
+  await database.deleteDocument(
+    String(import.meta.env.VITE_DATABASE_ID),
+    String(import.meta.env.VITE_COLLECTION_ID_POST),
+    postId,
+  );
+
+  await storage.deleteFile(
+    String(import.meta.env.VITE_BUCKET_ID),
+    currentImage,
   );
 };
