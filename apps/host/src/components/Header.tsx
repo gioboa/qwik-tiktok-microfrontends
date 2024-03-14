@@ -1,5 +1,6 @@
 import { component$, useContext, useSignal, useTask$ } from '@builder.io/qwik';
 import { Link, useLocation, useNavigate } from '@builder.io/qwik-city';
+import { Image } from 'qwik-image';
 import { StoreContext } from '../routes/layout';
 import { createBucketUrl, searchProfilesByName } from '../utils/actions';
 import { LogOutIcon } from './icons/LogOutIcon';
@@ -9,7 +10,7 @@ import { ThreeDotsVerticalIcon } from './icons/ThreeDotsVerticalIcon';
 import { UserIcon } from './icons/UserIcon';
 
 export type RandomUsers = {
-  id: string;
+  userId: string;
   name: string;
   image: string;
 };
@@ -44,7 +45,12 @@ export const Header = component$(() => {
       >
         <Link href="/">
           <div class="min-w-[115px] w-[115px]">
-            <img width="115" height="30" src="/images/tiktok-logo.png" />
+            <Image
+              width="115"
+              height="30"
+              src="/images/tiktok-logo.png"
+              layout="constrained"
+            />
           </div>
         </Link>
 
@@ -66,7 +72,7 @@ export const Header = component$(() => {
                     onClick$={() => {
                       searchProfilesSig.value = [];
                       searchValue.value = '';
-                      navigate(`/profile/${profile?.id}`);
+                      navigate(`/profile/${profile?.userId}`);
                     }}
                   >
                     <div class="flex items-center">
@@ -103,7 +109,7 @@ export const Header = component$(() => {
             <span class="px-2 font-medium text-[15px]">Upload</span>
           </button>
 
-          {!appStore.user?.id ? (
+          {!appStore.user?.userId ? (
             <div class="flex items-center">
               <button
                 onClick$={() => (appStore.isLoginOpen = true)}
@@ -134,7 +140,7 @@ export const Header = component$(() => {
                   <div class="absolute bg-white rounded-lg py-1.5 w-[200px] shadow-xl border top-[40px] right-0">
                     <button
                       onClick$={() => {
-                        navigate(`/profile/${appStore.user?.id}`);
+                        navigate(`/profile/${appStore.user?.userId}`);
                         showMenuSig.value = false;
                       }}
                       class="flex items-center w-full justify-start py-3 px-2 hover:bg-gray-100 cursor-pointer"
