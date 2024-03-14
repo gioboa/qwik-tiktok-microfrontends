@@ -30,7 +30,7 @@ export const getProfileByUserId = async (userId: string) => {
   const documents = response.documents;
   return {
     id: documents[0]?.$id,
-    user_id: documents[0]?.user_id,
+    userId: documents[0]?.user_id,
     name: documents[0]?.name,
     image: documents[0]?.image,
     bio: documents[0]?.bio,
@@ -50,26 +50,22 @@ export const createBucketUrl = (fileId: string) => {
 export const searchProfilesByName = async (
   name: string,
 ): Promise<RandomUsers[] | undefined> => {
-  try {
-    const profileResult = await database.listDocuments(
-      String(import.meta.env.VITE_DATABASE_ID),
-      String(import.meta.env.VITE_COLLECTION_ID_PROFILE),
-      [Query.limit(5), Query.search('name', name)],
-    );
+  const profileResult = await database.listDocuments(
+    String(import.meta.env.VITE_DATABASE_ID),
+    String(import.meta.env.VITE_COLLECTION_ID_PROFILE),
+    [Query.limit(5), Query.search('name', name)],
+  );
 
-    const objPromises = profileResult.documents.map((profile) => {
-      return {
-        id: profile?.user_id,
-        name: profile?.name,
-        image: profile?.image,
-      };
-    });
+  const objPromises = profileResult.documents.map((profile) => {
+    return {
+      userId: profile?.user_id,
+      name: profile?.name,
+      image: profile?.image,
+    };
+  });
 
-    const result = await Promise.all(objPromises);
-    return result;
-  } catch (error) {
-    console.log(error);
-  }
+  const result = await Promise.all(objPromises);
+  return result;
 };
 
 export const createPost = async (
@@ -103,11 +99,10 @@ export const getPostsByUser = async (userId: string) => {
     String(import.meta.env.VITE_COLLECTION_ID_POST),
     [Query.equal('user_id', userId), Query.orderDesc('$id')],
   );
-  const documents = response.documents;
-  const result = documents.map((doc) => {
+  const result = response.documents.map((doc) => {
     return {
       id: doc?.$id,
-      user_id: doc?.user_id,
+      userId: doc?.user_id,
       video_url: doc?.video_url,
       text: doc?.text,
       created_at: doc?.created_at,
@@ -120,7 +115,6 @@ export const getPostsByUser = async (userId: string) => {
 export const changeUserImage = async (
   file: File,
   cropper: CropperDimensions,
-  currentImage: string,
 ) => {
   const videoId = Math.random().toString(36).slice(2, 22);
 
@@ -166,6 +160,153 @@ export const updateProfile = async (id: string, name: string, bio: string) => {
     {
       name: name,
       bio: bio,
+    },
+  );
+};
+
+export const getRandomUsers = async () => {
+  const profileResult = await database.listDocuments(
+    String(import.meta.env.VITE_DATABASE_ID),
+    String(import.meta.env.VITE_COLLECTION_ID_PROFILE),
+    [Query.limit(5)],
+  );
+  const documents = profileResult.documents;
+
+  const objPromises = documents.map((profile) => {
+    return {
+      userId: profile?.user_id,
+      name: profile?.name,
+      image: profile?.image,
+    };
+  });
+
+  const result = await Promise.all(objPromises);
+  return result;
+};
+
+export const getAllPosts = async () => {
+  const response = await database.listDocuments(
+    String(import.meta.env.VITE_DATABASE_ID),
+    String(import.meta.env.VITE_COLLECTION_ID_POST),
+    [Query.orderDesc('$id')],
+  );
+  const documents = response.documents;
+
+  const objPromises = documents.map(async (doc) => {
+    const profile = await getProfileByUserId(doc?.user_id);
+    const likes = await getLikesByPostId(doc.$id);
+    const comments = await getCommentsByPostId(doc.$id);
+
+    return {
+      id: doc?.$id,
+      userId: doc?.user_id,
+      video_url: doc?.video_url,
+      text: doc?.text,
+      created_at: doc?.created_at,
+      profile: {
+        userId: profile?.userId,
+        name: profile?.name,
+        image: profile?.image,
+      },
+      likes,
+      comments: comments.length,
+    };
+  });
+
+  const result = await Promise.all(objPromises);
+  return result;
+};
+
+const getLikesByPostId = async (postId: string) => {
+  const response = await database.listDocuments(
+    String(import.meta.env.VITE_DATABASE_ID),
+    String(import.meta.env.VITE_COLLECTION_ID_LIKE),
+    [Query.equal('post_id', postId)],
+  );
+  const documents = response.documents;
+  const result = documents.map((doc) => {
+    return {
+      id: doc.$id,
+      userId: doc.user_id,
+      postId: doc.post_id,
+    };
+  });
+
+  return result;
+};
+
+export const getCommentsByPostId = async (postId: string) => {
+  const commentsResult = await database.listDocuments(
+    String(import.meta.env.VITE_DATABASE_ID),
+    String(import.meta.env.VITE_COLLECTION_ID_COMMENT),
+    [Query.equal('post_id', postId), Query.orderDesc('$id')],
+  );
+
+  const objPromises = commentsResult.documents.map(async (comment) => {
+    const profile = await getProfileByUserId(comment.user_id);
+
+    return {
+      id: comment?.$id,
+      userId: comment?.user_id,
+      postId: comment?.post_id,
+      text: comment?.text,
+      created_at: comment?.created_at,
+      profile: {
+        userId: profile?.userId,
+        name: profile?.name,
+        image: profile?.image,
+      },
+    };
+  });
+
+  const result = await Promise.all(objPromises);
+  return result.reverse();
+};
+
+export const createLike = async (userId: string, postId: string) => {
+  const response = await database.createDocument(
+    String(import.meta.env.VITE_DATABASE_ID),
+    String(import.meta.env.VITE_COLLECTION_ID_LIKE),
+    ID.unique(),
+    { user_id: userId, post_id: postId },
+  );
+  return {
+    id: response.$id,
+    userId: response.user_id,
+    postId: response.post_id,
+  };
+};
+
+export const deleteLike = async (id: string) => {
+  await database.deleteDocument(
+    String(import.meta.env.VITE_DATABASE_ID),
+    String(import.meta.env.VITE_COLLECTION_ID_LIKE),
+    id,
+  );
+};
+
+export const deleteComment = async (id: string) => {
+  await database.deleteDocument(
+    String(import.meta.env.VITE_DATABASE_ID),
+    String(import.meta.env.VITE_COLLECTION_ID_COMMENT),
+    id,
+  );
+};
+
+export const createComment = async (
+  userId: string,
+  postId: string,
+  comment: string,
+) => {
+  await database.createDocument(
+    String(import.meta.env.VITE_DATABASE_ID),
+    String(import.meta.env.VITE_COLLECTION_ID_COMMENT),
+    ID.unique(),
+    {
+      user_id: userId,
+      post_id: postId,
+      text: comment,
+      created_at: new Date().toISOString(),
     },
   );
 };
