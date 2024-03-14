@@ -7,6 +7,7 @@ import {
   useSignal,
 } from '@builder.io/qwik';
 import { useNavigate } from '@builder.io/qwik-city';
+import { Image } from 'qwik-image';
 import { KnifeIcon } from '../../components/icons/KnifeIcon';
 import { LoaderIcon } from '../../components/icons/LoaderIcon';
 import { OutlineCheckCircleIcon } from '../../components/icons/OutlineCheckCircleIcon';
@@ -55,7 +56,7 @@ export default component$(() => {
     isUploadingSig.value = true;
 
     try {
-      await createPost(fileSig.value, appStore.user.id, captionSig.value);
+      await createPost(fileSig.value, appStore.user.userId, captionSig.value);
       navigate(`/profile/${appStore.user.id}`);
       isUploadingSig.value = false;
     } catch (error) {
@@ -66,7 +67,7 @@ export default component$(() => {
   });
 
   return (
-    <div class="ml-[100px] mr-[100px] mt-[80px] mb-[40px] bg-white shadow-lg rounded-md py-6 md:px-10 px-4">
+    <div class="mx-auto mt-[80px] mb-[40px] bg-white shadow-lg rounded-md py-6 md:px-10 px-4 z-50">
       <div>
         <h1 class="text-[23px] font-semibold">Upload video</h1>
         <h2 class="text-gray-400 mt-1">Post a video to your account</h2>
@@ -84,13 +85,18 @@ export default component$(() => {
               </div>
             ) : null}
 
-            <img
+            <Image
               class="absolute z-20 pointer-events-none"
               src="/images/mobile-case.png"
+              width="260"
+              height="544"
+              layout="fixed"
             />
-            <img
+            <Image
               class="absolute right-4 bottom-6 z-20"
               width="90"
+              height="60"
+              layout="constrained"
               src="/images/tiktok-logo-white.png"
             />
             <video
@@ -122,7 +128,7 @@ export default component$(() => {
         ) : (
           <label
             for="fileInput"
-            class="md:mx-0 mx-auto mt-4 mb-6 flex flex-col items-center justify-center w-full max-w-[260px] h-[470px] text-center p-3 border-2 border-dashed border-gray-300 rounded-lg hover:bg-gray-100 cursor-pointer"
+            class="md:mx-0 mx-auto mt-4 mb-6 flex flex-col items-center justify-center w-full max-w-[260px] h-[544px] text-center p-3 border-2 border-dashed border-gray-300 rounded-lg hover:bg-gray-100 cursor-pointer"
           >
             <SolidCloudUploadIcon />
             <p class="mt-4 text-[17px]">Select video to upload</p>
