@@ -1,24 +1,26 @@
-import { $, component$, useOnDocument, useSignal } from '@builder.io/qwik';
-import { CART_QUANTITIES_CHANGED_EVENT } from 'shared/constants';
+import { component$ } from '@builder.io/qwik';
+import { routeLoader$ } from '@builder.io/qwik-city';
+import { getAllPosts } from '../utils/actions';
+import { PostMain } from '../components/PostMain';
+
+export const useAllPost = routeLoader$(async () => {
+  return await getAllPosts();
+});
 
 export default component$(() => {
-  const cartQtySig = useSignal(0);
-
-  useOnDocument(
-    CART_QUANTITIES_CHANGED_EVENT,
-    $((event) => {
-      console.log('CART_QUANTITIES_CHANGED_EVENT');
-      cartQtySig.value += (event as CustomEvent).detail.qty;
-    }),
-  );
-
+  const allPosts = useAllPost();
   return (
-    <>
-      host
-      {/* <div class="flex mt-12" style="justify-content: flex-end">
-        <CartCounter count={cartQtySignal.value} />
-      </div>
-      <RemoteMfe remote={remotes.home} removeLoader={true} /> */}
-    </>
+    <div class="mt-[80px]  w-[calc(100%-90px)] max-w-[690px] ml-auto">
+      {allPosts.value.map((post, index) => (
+        <PostMain post={post} key={index} />
+      ))}
+    </div>
   );
 });
+
+{
+  /* <div class="flex mt-12" style="justify-content: flex-end">
+        <CartCounter count={cartQtySignal.value} />
+      </div>
+      <RemoteMfe remote={remotes.home} removeLoader={true} /> */
+}
