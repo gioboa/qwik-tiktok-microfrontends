@@ -5,11 +5,11 @@ import {
   useLocation,
   useNavigate,
 } from '@builder.io/qwik-city';
+import { OutlineCloseIcon } from '@qwik-tiktok-microfrontends/ui';
 import { Image } from 'qwik-image';
 import { Comments } from '../../../../components/Comments';
 import { CommentsHeader } from '../../../../components/CommentsHeader';
 import { DownIcon } from '../../../../components/icons/DownIcon';
-import { OutlineCloseIcon } from '../../../../components/icons/OutlineCloseIcon';
 import { UpIcon } from '../../../../components/icons/UpIcon';
 import {
   createBucketUrl,
