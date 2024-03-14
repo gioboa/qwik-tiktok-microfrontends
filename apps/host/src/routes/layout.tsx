@@ -6,20 +6,24 @@ import {
   useContextProvider,
   useStore,
 } from '@builder.io/qwik';
-import { routeLoader$ } from '@builder.io/qwik-city';
+import { routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { Account } from 'appwrite';
 import { useImageProvider } from 'qwik-image';
 import { AuthOverlay } from '../components/AuthOverlay';
 import { EditProfileOverlay } from '../components/EditProfileOverlay';
-import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
-import { getProfileByUserId } from '../utils/actions';
+import { SideNavMain } from '../components/SideNavMain';
+import {
+  getPostsByUser,
+  getProfileByUserId,
+  getRandomUsers,
+} from '../utils/actions';
 import { client } from '../utils/AppWriteClient';
 import { JWT_COOKIE_KEY } from '../utils/constants';
 
 export type UserStore = {
   id: string;
-  user_id: string;
+  userId: string;
   name: string;
   image: string;
   bio: string;
@@ -32,6 +36,14 @@ type Store = {
 };
 
 export const StoreContext = createContextId<Store>('store-id');
+
+export const useRandomUsers = routeLoader$(async () => {
+  return await getRandomUsers();
+});
+
+export const useGetPostsByUser = routeLoader$(async ({ params }) => {
+  return await getPostsByUser(params.userId);
+});
 
 export const useUser = routeLoader$(async ({ cookie }) => {
   if (!cookie.get(JWT_COOKIE_KEY)?.value) {
@@ -50,6 +62,7 @@ export const useUser = routeLoader$(async ({ cookie }) => {
 });
 
 export default component$(() => {
+  const location = useLocation();
   const appStore = useStore<Store>({
     isLoginOpen: false,
     isEditProfileOpen: false,
@@ -61,15 +74,24 @@ export default component$(() => {
     imageTransformer$: $(({ src }) => src),
   });
 
-  return (
-    <>
+  return location.url.pathname.startsWith('/post/') ? (
+    <Slot />
+  ) : (
+    <div class="h-full w-full">
+      {location.url.pathname === '/upload/' && (
+        <div class="absolute h-full w-full bg-gray-400 opacity-10 z-40" />
+      )}
       <Header />
-      <main class="min-h-screen pt-20 px-8 bg-[#F8F8F8]">
+      <div
+        class={`flex justify-between mx-auto w-full lg:px-2.5 px-0 ${
+          location.url.pathname === '/' ? 'max-w-[1140px]' : ''
+        }`}
+      >
+        <SideNavMain />
         <Slot />
-      </main>
+      </div>
       {appStore.isLoginOpen && <AuthOverlay />}
       {appStore.isEditProfileOpen && <EditProfileOverlay />}
-      <Footer />
-    </>
+    </div>
   );
 });
