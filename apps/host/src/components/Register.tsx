@@ -6,7 +6,7 @@ import { ID, account } from '../utils/AppWriteClient';
 import { createProfile, getProfileByUserId } from '../utils/actions';
 import { ShowErrorObject } from './Login';
 import { TextInput } from './TextInput';
-import { LoaderIcon } from './icons/LoaderIcon';
+import { LoaderIcon } from '@qwik-tiktok-microfrontends/ui';
 
 export const Register = component$(() => {
   const appStore = useContext(StoreContext);

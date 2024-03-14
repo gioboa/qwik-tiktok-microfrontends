@@ -1,8 +1,8 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
+import { LoaderIcon } from '@qwik-tiktok-microfrontends/ui';
 import { setCookie, showError } from '../utils';
 import { account } from '../utils/AppWriteClient';
 import { TextInput } from './TextInput';
-import { LoaderIcon } from './icons/LoaderIcon';
 
 export interface ShowErrorObject {
   type: string;

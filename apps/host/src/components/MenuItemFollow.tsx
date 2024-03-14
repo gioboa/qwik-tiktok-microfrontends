@@ -1,9 +1,9 @@
 import { component$ } from '@builder.io/qwik';
 import { Link } from '@builder.io/qwik-city';
+import { OutlineCheckCircleIcon } from '@qwik-tiktok-microfrontends/ui';
 import { Image } from 'qwik-image';
 import { createBucketUrl } from '../utils/actions';
 import { RandomUsers } from './Header';
-import { OutlineCheckCircleIcon } from './icons/OutlineCheckCircleIcon';
 
 export type Props = {
   user: RandomUsers;

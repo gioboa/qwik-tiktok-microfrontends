@@ -1,12 +1,12 @@
 import { $, component$, useContext, useSignal } from '@builder.io/qwik';
 import { useNavigate } from '@builder.io/qwik-city';
+import { LoaderIcon } from '@qwik-tiktok-microfrontends/ui';
 import { StoreContext } from '../routes/layout';
 import { randomInt } from '../utils';
 import { createLike, deleteLike } from '../utils/actions';
 import { Like, PostWithInfo } from './PostMain';
 import { CommentsIcon } from './icons/CommentsIcon';
 import { FillHeartIcon } from './icons/FillHeartIcon';
-import { LoaderIcon } from './icons/LoaderIcon';
 import { ShareIcon } from './icons/ShareIcon';
 
 export type Props = {

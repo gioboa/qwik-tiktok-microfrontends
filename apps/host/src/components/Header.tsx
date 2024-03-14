@@ -1,12 +1,14 @@
 import { component$, useContext, useSignal, useTask$ } from '@builder.io/qwik';
 import { Link, useLocation, useNavigate } from '@builder.io/qwik-city';
+import {
+  OutlinePlusIcon,
+  SearchIcon,
+  ThreeDotsVerticalIcon,
+} from '@qwik-tiktok-microfrontends/ui';
 import { Image } from 'qwik-image';
 import { StoreContext } from '../routes/layout';
 import { createBucketUrl, searchProfilesByName } from '../utils/actions';
 import { LogOutIcon } from './icons/LogOutIcon';
-import { OutlinePlusIcon } from './icons/OutlinePlusIcon';
-import { SearchIcon } from './icons/SearchIcon';
-import { ThreeDotsVerticalIcon } from './icons/ThreeDotsVerticalIcon';
 import { UserIcon } from './icons/UserIcon';
 
 export type RandomUsers = {
@@ -38,11 +40,7 @@ export const Header = component$(() => {
 
   return (
     <div class="fixed bg-white z-30 flex items-center w-full border-b h-[60px]">
-      <div
-        class={`flex items-center justify-between gap-6 w-full px-4 mx-auto ${
-          location.url.pathname === '/' ? 'max-w-[1150px]' : ''
-        }`}
-      >
+      <div class="flex items-center justify-between gap-6 w-full px-4 mx-auto max-w-[1150px]">
         <Link href="/">
           <div class="min-w-[115px] w-[115px]">
             <Image
