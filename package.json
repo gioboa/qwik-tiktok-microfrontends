@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "serve:all": "npx nx run-many --parallel --target=serve --projects=host,home,checkout",
+    "serve:all": "npx nx run-many --parallel --target=serve --projects=host,upload",
     "preview:host": "npx nx run host:preview",
-    "preview:home": "npx nx run home:preview",
-    "preview:checkout": "npx nx run checkout:preview"
+    "preview:upload": "npx nx run upload:preview"
   },
   "private": true,
   "dependencies": {
