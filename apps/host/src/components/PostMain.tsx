@@ -16,20 +16,22 @@ export type PostWithInfo = {
   video_url: string;
   text: string;
   created_at: string;
-  profile: {
-    userId: string;
-    name: string;
-    image: string;
-  };
+  profile: Profile;
   likes: Like[];
   comments: number;
 };
 
-export interface Like {
+export type Profile = {
+  userId: string;
+  name: string;
+  image: string;
+};
+
+export type Like = {
   id: string;
   userId: string;
   postId: string;
-}
+};
 
 export const PostMain = component$<Props>(({ post }) => {
   return (
@@ -71,16 +73,18 @@ export const PostMain = component$<Props>(({ post }) => {
 
           <div class="mt-2.5 flex">
             <div class="relative min-h-[480px] max-h-[580px] max-w-[260px] flex items-center bg-black rounded-xl cursor-pointer">
-              <video
-                id={`video-${post.id}`}
-                loop
-                controls
-                muted
-                class="rounded-xl object-cover mx-auto h-full"
-                src={createBucketUrl(post?.video_url)}
-                onMouseEnter$={(_, target) => target.play()}
-                onMouseLeave$={(_, target) => target.pause()}
-              />
+              <Link href={`/post/${post.userId}/${post.id}/`}>
+                <video
+                  id={`video-${post.id}`}
+                  loop
+                  controls
+                  muted
+                  class="rounded-xl object-cover mx-auto h-full"
+                  src={createBucketUrl(post?.video_url)}
+                  onMouseEnter$={(_, target) => target.play()}
+                  onMouseLeave$={(_, target) => target.pause()}
+                />
+              </Link>
               <Image
                 class="absolute right-2 bottom-10"
                 width="90"
