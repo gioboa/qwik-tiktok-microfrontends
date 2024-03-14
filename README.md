@@ -123,7 +123,7 @@ Comment Settings (Update Permissions):
 
 ## Startup project
 
-Once you've connected your application to AppWrite. Run the commands.
+Once you've add your AppWrite env variables in the `.env` file, run this command.
 
 `pnpm i`
 
