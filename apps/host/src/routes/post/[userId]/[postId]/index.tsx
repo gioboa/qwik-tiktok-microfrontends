@@ -7,12 +7,15 @@ import {
 } from '@builder.io/qwik-city';
 import { Image } from 'qwik-image';
 import { Comments } from '../../../../components/Comments';
+import { CommentsHeader } from '../../../../components/CommentsHeader';
 import { DownIcon } from '../../../../components/icons/DownIcon';
 import { OutlineCloseIcon } from '../../../../components/icons/OutlineCloseIcon';
 import { UpIcon } from '../../../../components/icons/UpIcon';
 import {
   createBucketUrl,
   getCommentsByPostId,
+  getLikesByPostId,
+  getProfileByUserId,
 } from '../../../../utils/actions';
 import { useGetPostsByUser } from '../../../layout';
 
@@ -33,10 +36,20 @@ export const useGetCommentsByPostId = routeLoader$(async ({ params }) => {
   return await getCommentsByPostId(params.postId);
 });
 
+export const useGetLikesByPostId = routeLoader$(async ({ params }) => {
+  return await getLikesByPostId(params.postId);
+});
+
+export const useGetProfileByUserId = routeLoader$(async ({ params }) => {
+  return await getProfileByUserId(params.userId);
+});
+
 export default component$(() => {
   const navigate = useNavigate();
   const location = useLocation();
   const posts = useGetPostsByUser();
+  const likes = useGetLikesByPostId();
+  const profile = useGetProfileByUserId();
   const commentsSig = useSignal(useGetCommentsByPostId().value);
   const index = posts.value.findIndex((p) => p.id === location.params.postId);
   const currentPost = posts.value[index];
@@ -114,7 +127,13 @@ export default component$(() => {
       <div class="lg:max-w-[550px] relative w-full h-full bg-white">
         <div class="py-7" />
 
-        {/* {currentPost && <CommentsHeader post={currentPost} params={params} />} */}
+        {currentPost && (
+          <CommentsHeader
+            profile={profile.value}
+            likes={likes.value}
+            post={currentPost}
+          />
+        )}
 
         <Comments
           postId={location.params.postId}
