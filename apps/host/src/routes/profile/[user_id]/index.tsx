@@ -3,6 +3,7 @@ import { routeLoader$ } from '@builder.io/qwik-city';
 import { Image } from 'qwik-image';
 import { PostUser } from '../../../components/PostUser';
 import { PencilIcon } from '../../../components/icons/PencilIcon';
+import { randomInt } from '../../../utils';
 import {
   createBucketUrl,
   getPostsByUser,
@@ -69,13 +70,13 @@ export default component$(() => {
 
       <div class="flex items-center pt-4">
         <div class="mr-4">
-          <span class="font-bold">10K</span>
+          <span class="font-bold">{randomInt(100, 400)}K</span>
           <span class="text-gray-500 font-light text-[15px] pl-1.5">
             Following
           </span>
         </div>
         <div class="mr-4">
-          <span class="font-bold">44K</span>
+          <span class="font-bold">{randomInt(100, 400)}K</span>
           <span class="text-gray-500 font-light text-[15px] pl-1.5">
             Followers
           </span>
