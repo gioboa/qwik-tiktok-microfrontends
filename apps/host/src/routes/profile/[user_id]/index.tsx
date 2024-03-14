@@ -17,7 +17,7 @@ export const useGetData = routeLoader$(async ({ params, redirect }) => {
     throw redirect(307, '/');
   }
 
-  const posts = await getPostsByUser(profile.user_id);
+  const posts = await getPostsByUser(profile.userId);
 
   return { profile, posts };
 });
@@ -49,7 +49,7 @@ export default component$(() => {
             <p class="text-[18px] truncate">{data.value.profile.name}</p>
           </div>
 
-          {appStore.user?.user_id == data.value.profile.user_id ? (
+          {appStore.user?.userId == data.value.profile.userId ? (
             <button
               onClick$={() => {
                 appStore.isEditProfileOpen = true;
