@@ -4,6 +4,5 @@ export interface RemoteData {
 }
 
 export const remotes: Record<string, RemoteData> = {
-  home: { name: 'home', url: 'http://localhost:5174/home/' },
-  checkout: { name: 'checkout', url: 'http://localhost:5175/' },
+  upload: { name: 'upload', url: 'http://localhost:5174/upload/' },
 };
