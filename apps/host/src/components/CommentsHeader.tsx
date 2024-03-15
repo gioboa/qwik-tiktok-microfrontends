@@ -1,8 +1,8 @@
 import { $, component$, useContext, useSignal } from '@builder.io/qwik';
-import { Link, useNavigate } from '@builder.io/qwik-city';
+import { Link } from '@builder.io/qwik-city';
+import { LoaderIcon } from '@qwik-tiktok-microfrontends/ui';
 import moment from 'moment';
 import { Image } from 'qwik-image';
-import { LoaderIcon } from '@qwik-tiktok-microfrontends/ui';
 import { StoreContext } from '../routes/layout';
 import {
   createBucketUrl,
@@ -23,7 +23,6 @@ type Props = {
 };
 
 export const CommentsHeader = component$<Props>(({ profile, post, likes }) => {
-  const navigate = useNavigate();
   const appStore = useContext(StoreContext);
   const isDeletingSig = useSignal<boolean>(false);
   const hasClickedLikeSig = useSignal<boolean>(false);
@@ -40,7 +39,7 @@ export const CommentsHeader = component$<Props>(({ profile, post, likes }) => {
 
     try {
       await deletePostById(post.id, post.video_url);
-      navigate(`/profile/${profile.userId}`);
+      location.href = `/profile/${profile.userId}`;
     } catch (error) {
       console.log(error);
       isDeletingSig.value = false;
