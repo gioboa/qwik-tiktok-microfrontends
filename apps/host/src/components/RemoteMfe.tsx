@@ -5,7 +5,7 @@ import {
   StreamWriter,
 } from '@builder.io/qwik';
 import { type RemoteData } from '../../../../shared/remotes';
-import { fixRemoteHTMLInDevMode } from '../../shared';
+import { fixRemotePathsInDevMode } from '../../shared';
 
 export interface Props {
   remote: RemoteData;
@@ -28,7 +28,7 @@ export default component$(({ remote, removeLoader = false }: Props) => {
       let base = '';
       while (!fragmentChunk.done) {
         const rawHtml = decoder.decode(fragmentChunk.value);
-        const fixedHtmlObj = fixRemoteHTMLInDevMode(rawHtml, base);
+        const fixedHtmlObj = fixRemotePathsInDevMode(rawHtml, base);
         base = fixedHtmlObj.base;
         stream.write(fixedHtmlObj.html);
         fragmentChunk = await reader.read();
