@@ -1,5 +1,4 @@
 import {
-  $,
   component$,
   createContextId,
   Slot,
@@ -8,7 +7,6 @@ import {
 } from '@builder.io/qwik';
 import { RequestHandler, routeLoader$ } from '@builder.io/qwik-city';
 import { Account } from 'appwrite';
-import { useImageProvider } from 'qwik-image';
 import { JWT_COOKIE_KEY } from 'shared/constants';
 import { Header } from '../components/Header';
 import { getProfileByUserId } from '../utils/actions';
@@ -57,10 +55,6 @@ export default component$(() => {
     user: useUser().value,
   });
   useContextProvider(UploadContext, appStore);
-
-  useImageProvider({
-    imageTransformer$: $(({ src }) => src),
-  });
 
   return (
     <div class="h-full w-full">

@@ -11,7 +11,6 @@ import {
   OutlineCheckCircleIcon,
   OutlineCloseIcon,
 } from '@qwik-tiktok-microfrontends/ui';
-import { Image } from 'qwik-image';
 import { KnifeIcon } from '../components/icons/KnifeIcon';
 import { SolidCloudUploadIcon } from '../components/icons/SolidCloudUploadIcon';
 import { createPost } from '../utils/actions';
@@ -90,19 +89,17 @@ export default component$(() => {
               </div>
             ) : null}
 
-            <Image
+            <img
               class="absolute z-20 pointer-events-none"
-              src="/images/mobile-case.png"
+              src="images/mobile-case.png"
               width="260"
               height="544"
-              layout="fixed"
             />
-            <Image
+            <img
               class="absolute right-4 bottom-6 z-20"
               width="90"
               height="60"
-              layout="constrained"
-              src="/images/tiktok-logo-white.png"
+              src="images/tiktok-logo-white.png"
             />
             <video
               autoplay
@@ -221,7 +218,7 @@ export default component$(() => {
               onClick$={() => createNewPost()}
               class="px-10 py-2.5 mt-8 border text-[16px] text-white bg-[#F02C56] rounded-sm"
             >
-              {isUploadingSig.value ? <LoaderIcon /> : 'Post'}
+              Post
             </button>
           </div>
 
