@@ -28,25 +28,27 @@ export type UserStore = {
 
 export const UploadContext = createContextId<UploadStore>('upload-id');
 
-export const onRequest: RequestHandler = async ({ redirect, cookie }) => {
-  if (!cookie.get(JWT_COOKIE_KEY)) {
+export const extractToken = (request: Request) =>
+  request.headers.get(JWT_COOKIE_KEY)?.replace(JWT_COOKIE_KEY + '=', '');
+
+export const onRequest: RequestHandler = async ({ redirect, request }) => {
+  const token = extractToken(request);
+  if (!token) {
     throw redirect(307, 'http://localhost:5173/');
   }
 };
 
-export const useUser = routeLoader$(async ({ cookie }) => {
-  if (!cookie.get(JWT_COOKIE_KEY)?.value) {
-    return undefined;
-  }
+export const useUser = routeLoader$(async ({ request, error }) => {
   try {
-    if (cookie.get(JWT_COOKIE_KEY)?.value) {
-      const cli = client(cookie.get(JWT_COOKIE_KEY)!.value);
+    const token = extractToken(request);
+    if (token) {
+      const cli = client(token);
       const response = await new Account(cli).get();
       const profile = await getProfileByUserId(response?.$id);
       return profile;
     }
   } catch {
-    return undefined;
+    throw error(403, 'Forbidden');
   }
 });
 
