@@ -7,6 +7,7 @@ import { createProfile, getProfileByUserId } from '../utils/actions';
 import { ShowErrorObject } from './Login';
 import { TextInput } from './TextInput';
 import { LoaderIcon } from '@qwik-tiktok-microfrontends/ui';
+import { ENV_VARIABLES } from '../env';
 
 export const Register = component$(() => {
   const appStore = useContext(StoreContext);
@@ -72,7 +73,7 @@ export const Register = component$(() => {
         await createProfile(
           promise?.$id,
           nameSig.value,
-          String(import.meta.env.VITE_PLACEHOLDER_DEFAULT_IMAGE_ID),
+          String(ENV_VARIABLES.VITE_PLACEHOLDER_DEFAULT_IMAGE_ID),
           '',
         );
 

@@ -4,7 +4,7 @@
 export const fixRemoteHTMLInDevMode = (
   rawHtml: string,
   base = '',
-  isDev?: boolean
+  isDev?: boolean,
 ): { html: string; base: string } => {
   let html = rawHtml;
   if (isDev || import.meta.env.DEV) {

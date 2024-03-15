@@ -1,3 +1,4 @@
+import { ENV_VARIABLES } from '../env';
 import { ID, Query, database, storage } from './AppWriteClient';
 
 export const createPost = async (
@@ -8,8 +9,8 @@ export const createPost = async (
   const videoId = Math.random().toString(36).slice(2, 22);
 
   await database.createDocument(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_POST),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_POST),
     ID.unique(),
     {
       user_id: userId,
@@ -18,17 +19,13 @@ export const createPost = async (
       created_at: new Date().toISOString(),
     },
   );
-  await storage.createFile(
-    String(import.meta.env.VITE_BUCKET_ID),
-    videoId,
-    file,
-  );
+  await storage.createFile(String(ENV_VARIABLES.VITE_BUCKET_ID), videoId, file);
 };
 
 export const getProfileByUserId = async (userId: string) => {
   const response = await database.listDocuments(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_PROFILE),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_PROFILE),
     [Query.equal('user_id', userId)],
   );
   const documents = response.documents;
@@ -42,9 +39,9 @@ export const getProfileByUserId = async (userId: string) => {
 };
 
 export const createBucketUrl = (fileId: string) => {
-  const url = import.meta.env.VITE_APPWRITE_URL;
-  const id = import.meta.env.VITE_BUCKET_ID;
-  const endpoint = import.meta.env.VITE_ENDPOINT;
+  const url = ENV_VARIABLES.VITE_APPWRITE_URL;
+  const id = ENV_VARIABLES.VITE_BUCKET_ID;
+  const endpoint = ENV_VARIABLES.VITE_ENDPOINT;
 
   if (!url || !id || !endpoint || !fileId) return '';
 

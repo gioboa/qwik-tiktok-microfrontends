@@ -4,12 +4,13 @@ import Image from 'image-js';
 import { CropperDimensions } from '../components/EditProfileOverlay';
 import { RandomUsers } from '../components/Header';
 import { database, storage } from './AppWriteClient';
+import { ENV_VARIABLES } from '../env';
 
 export const createProfile = $(
   async (userId: string, name: string, image: string, bio: string) => {
     await database.createDocument(
-      String(import.meta.env.VITE_DATABASE_ID),
-      String(import.meta.env.VITE_COLLECTION_ID_PROFILE),
+      String(ENV_VARIABLES.VITE_DATABASE_ID),
+      String(ENV_VARIABLES.VITE_COLLECTION_ID_PROFILE),
       ID.unique(),
       {
         user_id: userId,
@@ -23,8 +24,8 @@ export const createProfile = $(
 
 export const getProfileByUserId = async (userId: string) => {
   const response = await database.listDocuments(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_PROFILE),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_PROFILE),
     [Query.equal('user_id', userId)],
   );
   const documents = response.documents;
@@ -38,9 +39,9 @@ export const getProfileByUserId = async (userId: string) => {
 };
 
 export const createBucketUrl = (fileId: string) => {
-  const url = import.meta.env.VITE_APPWRITE_URL;
-  const id = import.meta.env.VITE_BUCKET_ID;
-  const endpoint = import.meta.env.VITE_ENDPOINT;
+  const url = ENV_VARIABLES.VITE_APPWRITE_URL;
+  const id = ENV_VARIABLES.VITE_BUCKET_ID;
+  const endpoint = ENV_VARIABLES.VITE_ENDPOINT;
 
   if (!url || !id || !endpoint || !fileId) return '';
 
@@ -51,8 +52,8 @@ export const searchProfilesByName = async (
   name: string,
 ): Promise<RandomUsers[] | undefined> => {
   const profileResult = await database.listDocuments(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_PROFILE),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_PROFILE),
     [Query.limit(5), Query.search('name', name)],
   );
 
@@ -76,8 +77,8 @@ export const createPost = async (
   const videoId = Math.random().toString(36).slice(2, 22);
 
   await database.createDocument(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_POST),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_POST),
     ID.unique(),
     {
       user_id: userId,
@@ -86,17 +87,13 @@ export const createPost = async (
       created_at: new Date().toISOString(),
     },
   );
-  await storage.createFile(
-    String(import.meta.env.VITE_BUCKET_ID),
-    videoId,
-    file,
-  );
+  await storage.createFile(String(ENV_VARIABLES.VITE_BUCKET_ID), videoId, file);
 };
 
 export const getPostsByUser = async (userId: string) => {
   const response = await database.listDocuments(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_POST),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_POST),
     [Query.equal('user_id', userId), Query.orderDesc('$id')],
   );
   const result = response.documents.map((doc) => {
@@ -133,7 +130,7 @@ export const changeUserImage = async (
   const arrayBuffer = await blob.arrayBuffer();
   const finalFile = new File([arrayBuffer], file.name, { type: blob.type });
   const result = await storage.createFile(
-    String(import.meta.env.VITE_BUCKET_ID),
+    String(ENV_VARIABLES.VITE_BUCKET_ID),
     videoId,
     finalFile,
   );
@@ -143,8 +140,8 @@ export const changeUserImage = async (
 
 export const updateProfileImage = async (id: string, image: string) => {
   await database.updateDocument(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_PROFILE),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_PROFILE),
     id,
     {
       image: image,
@@ -154,8 +151,8 @@ export const updateProfileImage = async (id: string, image: string) => {
 
 export const updateProfile = async (id: string, name: string, bio: string) => {
   await database.updateDocument(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_PROFILE),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_PROFILE),
     id,
     {
       name: name,
@@ -166,8 +163,8 @@ export const updateProfile = async (id: string, name: string, bio: string) => {
 
 export const getRandomUsers = async () => {
   const profileResult = await database.listDocuments(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_PROFILE),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_PROFILE),
     [Query.limit(5)],
   );
   const documents = profileResult.documents;
@@ -186,8 +183,8 @@ export const getRandomUsers = async () => {
 
 export const getAllPosts = async () => {
   const response = await database.listDocuments(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_POST),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_POST),
     [Query.orderDesc('$id')],
   );
   const documents = response.documents;
@@ -219,8 +216,8 @@ export const getAllPosts = async () => {
 
 export const getLikesByPostId = async (postId: string) => {
   const response = await database.listDocuments(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_LIKE),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_LIKE),
     [Query.equal('post_id', postId)],
   );
   const documents = response.documents;
@@ -237,8 +234,8 @@ export const getLikesByPostId = async (postId: string) => {
 
 export const getCommentsByPostId = async (postId: string) => {
   const commentsResult = await database.listDocuments(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_COMMENT),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_COMMENT),
     [Query.equal('post_id', postId), Query.orderDesc('$id')],
   );
 
@@ -265,8 +262,8 @@ export const getCommentsByPostId = async (postId: string) => {
 
 export const createLike = async (userId: string, postId: string) => {
   const response = await database.createDocument(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_LIKE),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_LIKE),
     ID.unique(),
     { user_id: userId, post_id: postId },
   );
@@ -279,16 +276,16 @@ export const createLike = async (userId: string, postId: string) => {
 
 export const deleteLike = async (id: string) => {
   await database.deleteDocument(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_LIKE),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_LIKE),
     id,
   );
 };
 
 export const deleteComment = async (id: string) => {
   await database.deleteDocument(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_COMMENT),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_COMMENT),
     id,
   );
 };
@@ -299,8 +296,8 @@ export const createComment = async (
   comment: string,
 ) => {
   await database.createDocument(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_COMMENT),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_COMMENT),
     ID.unique(),
     {
       user_id: userId,
@@ -323,13 +320,10 @@ export const deletePostById = async (postId: string, currentImage: string) => {
   });
 
   await database.deleteDocument(
-    String(import.meta.env.VITE_DATABASE_ID),
-    String(import.meta.env.VITE_COLLECTION_ID_POST),
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_POST),
     postId,
   );
 
-  await storage.deleteFile(
-    String(import.meta.env.VITE_BUCKET_ID),
-    currentImage,
-  );
+  await storage.deleteFile(String(ENV_VARIABLES.VITE_BUCKET_ID), currentImage);
 };
