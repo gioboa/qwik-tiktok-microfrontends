@@ -48,8 +48,7 @@ export const onRequest: RequestHandler = async ({
   send(response);
 };
 
-const needNewResponse = (url: string) =>
-  import.meta.env.DEV || isJSorTS(url) || isHtml(url);
+const needNewResponse = (url: string) => isJSorTS(url) || isHtml(url);
 
 const isJSorTS = (url: string) =>
   ['.js', '.ts'].includes(url.slice(-3)) ||
