@@ -1,5 +1,5 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
-import { Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
+import { routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { OutlineCloseIcon } from '@qwik-tiktok-microfrontends/ui';
 import { Image } from 'qwik-image';
 import { Comments } from '../../../../components/Comments';
@@ -56,12 +56,12 @@ export default component$(() => {
   return (
     <div class="lg:flex justify-between w-full h-screen bg-black overflow-auto">
       <div class="lg:w-[calc(100%-540px)] h-full relative">
-        <Link
+        <a
           href={`/profile/${location.params?.userId}`}
           class="absolute text-white z-20 m-5 rounded-full bg-gray-700 p-1.5 hover:bg-gray-800"
         >
           <OutlineCloseIcon />
-        </Link>
+        </a>
 
         <div>
           <button
