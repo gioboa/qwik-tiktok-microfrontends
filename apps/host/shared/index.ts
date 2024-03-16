@@ -25,11 +25,15 @@ export const fixRemotePathsInDevMode = (
       return '"\\u0002' + base + path + '"';
     });
   }
-  html = fixErroredHostDefinition(html, base);
+  html = fixErroredHostClash(html, base);
+  html = fixImageWarningClash(html, base);
   return { html, base };
 };
 
-const fixErroredHostDefinition = (html: string, base: string) =>
+const fixErroredHostClash = (html: string, base: string) =>
   html
     .replace(/ErroredHost/gm, `ErroredHost${base.replace('/', '')}`)
     .replace(/errored-host/gm, `errored-host-${base.replace('/', '')}`);
+
+const fixImageWarningClash = (html: string, base: string) =>
+  html.replace(/image-warning/gm, `image-warning-${base.replace('/', '')}`);
