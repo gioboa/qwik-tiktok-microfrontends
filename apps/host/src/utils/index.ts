@@ -1,5 +1,5 @@
 import { Signal } from '@builder.io/qwik';
-import { JWT_COOKIE_KEY } from 'shared/constants';
+import { TOKEN_COOKIE_KEY } from 'shared/constants';
 import { ShowErrorObject } from '../components/EditProfileOverlay';
 
 export const setCookie = (value: string) => {
@@ -7,7 +7,7 @@ export const setCookie = (value: string) => {
   date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000);
   const expires = 'expires=' + date.toUTCString();
   document.cookie =
-    JWT_COOKIE_KEY + '=' + (value || '') + '; ' + expires + '; path=/';
+    TOKEN_COOKIE_KEY + '=' + (value || '') + '; ' + expires + '; path=/';
 };
 
 export const showError = (

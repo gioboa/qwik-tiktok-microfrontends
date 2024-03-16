@@ -9,7 +9,7 @@ import {
 import { routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { Account } from 'appwrite';
 import { useImageProvider } from 'qwik-image';
-import { JWT_COOKIE_KEY } from 'shared/constants';
+import { TOKEN_COOKIE_KEY } from 'shared/constants';
 import { AuthOverlay } from '../components/AuthOverlay';
 import { EditProfileOverlay } from '../components/EditProfileOverlay';
 import { Header } from '../components/Header';
@@ -20,6 +20,8 @@ import {
   getRandomUsers,
 } from '../utils/actions';
 import { client } from '../utils/AppWriteClient';
+import RemoteMfe from '../components/RemoteMfe';
+import { remotes } from 'shared/remotes';
 
 export type UserStore = {
   id: string;
@@ -46,12 +48,12 @@ export const useGetPostsByUser = routeLoader$(async ({ params }) => {
 });
 
 export const useUser = routeLoader$(async ({ cookie }) => {
-  if (!cookie.get(JWT_COOKIE_KEY)?.value) {
+  if (!cookie.get(TOKEN_COOKIE_KEY)?.value) {
     return undefined;
   }
   try {
-    if (cookie.get(JWT_COOKIE_KEY)?.value) {
-      const cli = client(cookie.get(JWT_COOKIE_KEY)!.value);
+    if (cookie.get(TOKEN_COOKIE_KEY)?.value) {
+      const cli = client(cookie.get(TOKEN_COOKIE_KEY)!.value);
       const response = await new Account(cli).get();
       const profile = await getProfileByUserId(response?.$id);
       return profile;
@@ -61,8 +63,13 @@ export const useUser = routeLoader$(async ({ cookie }) => {
   }
 });
 
+export const useToken = routeLoader$(({ cookie }) => {
+  return cookie.get(TOKEN_COOKIE_KEY)?.value;
+});
+
 export default component$(() => {
   const location = useLocation();
+  const token = useToken();
   const appStore = useStore<Store>({
     isLoginOpen: false,
     isEditProfileOpen: false,
@@ -81,6 +88,11 @@ export default component$(() => {
       <Header />
       <div class="flex justify-between mx-auto w-full lg:px-2.5 px-0 max-w-[1140px]">
         <SideNavMain />
+        <RemoteMfe
+          remote={remotes.recommender}
+          removeLoader={true}
+          token={token.value}
+        />
         <Slot />
       </div>
       {appStore.isLoginOpen && <AuthOverlay />}

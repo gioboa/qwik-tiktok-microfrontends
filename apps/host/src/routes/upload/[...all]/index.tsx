@@ -1,5 +1,5 @@
 import { RequestHandler } from '@builder.io/qwik-city';
-import { JWT_COOKIE_KEY } from 'shared/constants';
+import { TOKEN_COOKIE_KEY } from 'shared/constants';
 import { remotes } from 'shared/remotes';
 import { fixRemotePathsInDevMode } from '../../../../shared';
 
@@ -10,7 +10,7 @@ export const onRequest: RequestHandler = async ({
   redirect,
   request,
 }) => {
-  if (!cookie.get(JWT_COOKIE_KEY)?.value) {
+  if (!cookie.get(TOKEN_COOKIE_KEY)?.value) {
     throw redirect(307, '/');
   }
 
@@ -26,7 +26,7 @@ export const onRequest: RequestHandler = async ({
       'Content-Type':
         request.headers.get('Content-Type') || 'application/javascript',
       'Access-Control-Allow-Origin': '*',
-      [JWT_COOKIE_KEY]: cookie.get(JWT_COOKIE_KEY)?.value || '',
+      [TOKEN_COOKIE_KEY]: cookie.get(TOKEN_COOKIE_KEY)?.value || '',
     },
   });
 
