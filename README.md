@@ -22,7 +22,7 @@ port: 5173
 
 ![host_2](docs/host_2.png)
 
-## Upload ( horizontal split )
+## Upload ( vertical split )
 
 port: 5174
 
