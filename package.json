@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "serve:all": "npx nx run-many --parallel --target=serve --projects=host,upload",
+    "serve:all": "npx nx run-many --parallel --target=serve --projects=host,upload,recommender",
     "preview:host": "npx nx run host:preview",
-    "preview:upload": "npx nx run upload:preview"
+    "preview:upload": "npx nx run upload:preview",
+    "preview:recommender": "npx nx run recommender:preview"
   },
   "private": true,
   "type": "module",
