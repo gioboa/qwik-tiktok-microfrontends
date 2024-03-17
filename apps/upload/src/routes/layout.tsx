@@ -9,7 +9,7 @@ import {
 import { RequestHandler, routeLoader$ } from '@builder.io/qwik-city';
 import { Account } from 'appwrite';
 import { useImageProvider } from 'qwik-image';
-import { JWT_COOKIE_KEY } from 'shared/constants';
+import { TOKEN_COOKIE_KEY } from 'shared/constants';
 import { Header } from '../components/Header';
 import { getProfileByUserId } from '../utils/actions';
 import { client } from '../utils/AppWriteClient';
@@ -29,7 +29,7 @@ export type UserStore = {
 export const UploadContext = createContextId<UploadStore>('upload-id');
 
 export const extractToken = (request: Request) =>
-  request.headers.get(JWT_COOKIE_KEY)?.replace(JWT_COOKIE_KEY + '=', '');
+  request.headers.get(TOKEN_COOKIE_KEY)?.replace(TOKEN_COOKIE_KEY + '=', '');
 
 export const onRequest: RequestHandler = async ({ redirect, request }) => {
   const token = extractToken(request);
