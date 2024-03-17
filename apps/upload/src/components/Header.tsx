@@ -9,12 +9,6 @@ import { Image } from 'qwik-image';
 import { UploadContext } from '../routes/layout';
 import { createBucketUrl } from '../utils/actions';
 
-export type RandomUsers = {
-  userId: string;
-  name: string;
-  image: string;
-};
-
 export const Header = component$(() => {
   const appStore = useContext(UploadContext);
 
