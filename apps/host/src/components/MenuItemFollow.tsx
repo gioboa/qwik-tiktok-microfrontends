@@ -3,10 +3,10 @@ import { Link } from '@builder.io/qwik-city';
 import { OutlineCheckCircleIcon } from '@qwik-tiktok-microfrontends/ui';
 import { Image } from 'qwik-image';
 import { createBucketUrl } from '../utils/actions';
-import { RandomUsers } from './Header';
+import { SearchUser } from './Header';
 
 export type Props = {
-  user: RandomUsers;
+  user: SearchUser;
 };
 
 export const MenuItemFollow = component$<Props>(({ user }) => {

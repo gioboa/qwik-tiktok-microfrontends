@@ -11,7 +11,7 @@ import { createBucketUrl, searchProfilesByName } from '../utils/actions';
 import { LogOutIcon } from './icons/LogOutIcon';
 import { UserIcon } from './icons/UserIcon';
 
-export type RandomUsers = {
+export type SearchUser = {
   userId: string;
   name: string;
   image: string;
@@ -21,7 +21,7 @@ export const Header = component$(() => {
   const appStore = useContext(StoreContext);
   const navigate = useNavigate();
   const showMenuSig = useSignal<boolean>(false);
-  const searchProfilesSig = useSignal<RandomUsers[]>([]);
+  const searchProfilesSig = useSignal<SearchUser[]>([]);
   const searchValue = useSignal('');
 
   useTask$(({ track, cleanup }) => {
