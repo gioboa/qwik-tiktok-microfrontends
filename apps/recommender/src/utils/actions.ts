@@ -1,41 +1,24 @@
 import { ENV_VARIABLES } from '../env';
-import { ID, Query, database, storage } from './AppWriteClient';
+import { Query, database } from './AppWriteClient';
 
-export const createPost = async (
-  file: File,
-  userId: string,
-  caption: string,
-) => {
-  const videoId = Math.random().toString(36).slice(2, 22);
-
-  await database.createDocument(
-    String(ENV_VARIABLES.VITE_DATABASE_ID),
-    String(ENV_VARIABLES.VITE_COLLECTION_ID_POST),
-    ID.unique(),
-    {
-      user_id: userId,
-      text: caption,
-      video_url: videoId,
-      created_at: new Date().toISOString(),
-    },
-  );
-  await storage.createFile(String(ENV_VARIABLES.VITE_BUCKET_ID), videoId, file);
-};
-
-export const getProfileByUserId = async (userId: string) => {
-  const response = await database.listDocuments(
+export const getRandomUsers = async () => {
+  const profileResult = await database.listDocuments(
     String(ENV_VARIABLES.VITE_DATABASE_ID),
     String(ENV_VARIABLES.VITE_COLLECTION_ID_PROFILE),
-    [Query.equal('user_id', userId)],
+    [Query.limit(5)],
   );
-  const documents = response.documents;
-  return {
-    id: documents[0]?.$id,
-    userId: documents[0]?.user_id,
-    name: documents[0]?.name,
-    image: documents[0]?.image,
-    bio: documents[0]?.bio,
-  };
+  const documents = profileResult.documents;
+
+  const objPromises = documents.map((profile) => {
+    return {
+      userId: profile?.user_id,
+      name: profile?.name,
+      image: profile?.image,
+    };
+  });
+
+  const result = await Promise.all(objPromises);
+  return result;
 };
 
 export const createBucketUrl = (fileId: string) => {
