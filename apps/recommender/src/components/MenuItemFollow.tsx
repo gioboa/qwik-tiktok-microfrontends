@@ -1,5 +1,4 @@
 import { component$ } from '@builder.io/qwik';
-import { Link } from '@builder.io/qwik-city';
 import { OutlineCheckCircleIcon } from '@qwik-tiktok-microfrontends/ui';
 import { Image } from 'qwik-image';
 import { createBucketUrl } from '../utils/actions';
@@ -17,7 +16,7 @@ export type RandomUser = {
 export const MenuItemFollow = component$<Props>(({ user }) => {
   return (
     <>
-      <Link
+      <a
         href={`/profile/${user?.userId}`}
         class="flex items-center hover:bg-gray-100 rounded-md w-full py-1.5 px-2"
       >
@@ -40,7 +39,7 @@ export const MenuItemFollow = component$<Props>(({ user }) => {
           </div>
           <p class="font-light text-[12px] text-gray-600">{user?.name}</p>
         </div>
-      </Link>
+      </a>
     </>
   );
 });
