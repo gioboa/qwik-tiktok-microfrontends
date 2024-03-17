@@ -2,9 +2,9 @@ import { $ } from '@builder.io/qwik';
 import { ID, Query } from 'appwrite';
 import Image from 'image-js';
 import { CropperDimensions } from '../components/EditProfileOverlay';
-import { RandomUsers } from '../components/Header';
-import { database, storage } from './AppWriteClient';
+import { SearchUser } from '../components/Header';
 import { ENV_VARIABLES } from '../env';
+import { database, storage } from './AppWriteClient';
 
 export const createProfile = $(
   async (userId: string, name: string, image: string, bio: string) => {
@@ -50,7 +50,7 @@ export const createBucketUrl = (fileId: string) => {
 
 export const searchProfilesByName = async (
   name: string,
-): Promise<RandomUsers[] | undefined> => {
+): Promise<SearchUser[] | undefined> => {
   const profileResult = await database.listDocuments(
     String(ENV_VARIABLES.VITE_DATABASE_ID),
     String(ENV_VARIABLES.VITE_COLLECTION_ID_PROFILE),
@@ -159,26 +159,6 @@ export const updateProfile = async (id: string, name: string, bio: string) => {
       bio: bio,
     },
   );
-};
-
-export const getRandomUsers = async () => {
-  const profileResult = await database.listDocuments(
-    String(ENV_VARIABLES.VITE_DATABASE_ID),
-    String(ENV_VARIABLES.VITE_COLLECTION_ID_PROFILE),
-    [Query.limit(5)],
-  );
-  const documents = profileResult.documents;
-
-  const objPromises = documents.map((profile) => {
-    return {
-      userId: profile?.user_id,
-      name: profile?.name,
-      image: profile?.image,
-    };
-  });
-
-  const result = await Promise.all(objPromises);
-  return result;
 };
 
 export const getAllPosts = async () => {

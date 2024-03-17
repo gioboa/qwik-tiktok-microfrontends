@@ -10,18 +10,13 @@ import { routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { Account } from 'appwrite';
 import { useImageProvider } from 'qwik-image';
 import { TOKEN_COOKIE_KEY } from 'shared/constants';
+import { remotes } from 'shared/remotes';
 import { AuthOverlay } from '../components/AuthOverlay';
 import { EditProfileOverlay } from '../components/EditProfileOverlay';
 import { Header } from '../components/Header';
-import { SideNavMain } from '../components/SideNavMain';
-import {
-  getPostsByUser,
-  getProfileByUserId,
-  getRandomUsers,
-} from '../utils/actions';
-import { client } from '../utils/AppWriteClient';
 import RemoteMfe from '../components/RemoteMfe';
-import { remotes } from 'shared/remotes';
+import { getPostsByUser, getProfileByUserId } from '../utils/actions';
+import { client } from '../utils/AppWriteClient';
 
 export type UserStore = {
   id: string;
@@ -38,10 +33,6 @@ type Store = {
 };
 
 export const StoreContext = createContextId<Store>('store-id');
-
-export const useRandomUsers = routeLoader$(async () => {
-  return await getRandomUsers();
-});
 
 export const useGetPostsByUser = routeLoader$(async ({ params }) => {
   return await getPostsByUser(params.userId);
@@ -87,7 +78,6 @@ export default component$(() => {
     <div class="h-full w-full">
       <Header />
       <div class="flex justify-between mx-auto w-full lg:px-2.5 px-0 max-w-[1140px]">
-        <SideNavMain />
         <RemoteMfe
           remote={remotes.recommender}
           removeLoader={true}
