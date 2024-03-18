@@ -307,3 +307,23 @@ export const deletePostById = async (postId: string, currentImage: string) => {
 
   await storage.deleteFile(String(ENV_VARIABLES.VITE_BUCKET_ID), currentImage);
 };
+
+export const getRandomUsers = async () => {
+  const profileResult = await database.listDocuments(
+    String(ENV_VARIABLES.VITE_DATABASE_ID),
+    String(ENV_VARIABLES.VITE_COLLECTION_ID_PROFILE),
+    [Query.limit(5)],
+  );
+  const documents = profileResult.documents;
+
+  const objPromises = documents.map((profile) => {
+    return {
+      userId: profile?.user_id,
+      name: profile?.name,
+      image: profile?.image,
+    };
+  });
+
+  const result = await Promise.all(objPromises);
+  return result;
+};

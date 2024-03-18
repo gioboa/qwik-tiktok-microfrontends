@@ -10,12 +10,15 @@ import { routeLoader$, useLocation } from '@builder.io/qwik-city';
 import { Account } from 'appwrite';
 import { useImageProvider } from 'qwik-image';
 import { TOKEN_COOKIE_KEY } from 'shared/constants';
-import { remotes } from 'shared/remotes';
 import { AuthOverlay } from '../components/AuthOverlay';
 import { EditProfileOverlay } from '../components/EditProfileOverlay';
 import { Header } from '../components/Header';
-import RemoteMfe from '../components/RemoteMfe';
-import { getPostsByUser, getProfileByUserId } from '../utils/actions';
+import { SideNavMain } from '../components/SideNavMain';
+import {
+  getPostsByUser,
+  getProfileByUserId,
+  getRandomUsers,
+} from '../utils/actions';
 import { client } from '../utils/AppWriteClient';
 
 export type UserStore = {
@@ -58,9 +61,12 @@ export const useToken = routeLoader$(({ cookie }) => {
   return cookie.get(TOKEN_COOKIE_KEY)?.value;
 });
 
+export const useRandomUsers = routeLoader$(async () => {
+  return await getRandomUsers();
+});
+
 export default component$(() => {
   const location = useLocation();
-  const token = useToken();
   const appStore = useStore<Store>({
     isLoginOpen: false,
     isEditProfileOpen: false,
@@ -78,11 +84,7 @@ export default component$(() => {
     <div class="h-full w-full">
       <Header />
       <div class="flex justify-between mx-auto w-full lg:px-2.5 px-0 max-w-[1140px]">
-        <RemoteMfe
-          remote={remotes.recommender}
-          removeLoader={true}
-          token={token.value}
-        />
+        <SideNavMain />
         <Slot />
       </div>
       {appStore.isLoginOpen && <AuthOverlay />}
