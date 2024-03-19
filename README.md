@@ -4,7 +4,7 @@
 
 node >= v20.11.1 required
 
-# The project contains 2 apps ( Host, Upload )
+# The project contains 3 apps ( Host, Upload, Recommender )
 
 ## Host
 
@@ -27,6 +27,12 @@ port: 5173
 port: 5174
 
 ![upload](docs/upload.png)
+
+## Recommender ( horizontal split )
+
+port: 5175
+
+![recommender](docs/recommender.png)
 
 ## App Setup (localhost)
 
@@ -131,6 +137,7 @@ Once you've add your AppWrite env variables in the `.env` file, run this command
 
 - `npm run preview:host`
 - `npm run preview:upload`
+- `npm run preview:recommender`
 
 ## Development server
 
