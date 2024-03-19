@@ -16,7 +16,6 @@ export interface Props {
 
 export default component$(
   ({ remote, removeLoader = false, token = '' }: Props) => {
-    console.log(token);
     const url = remote.url;
     const decoder = new TextDecoder();
     const getSSRStreamFunction =

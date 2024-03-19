@@ -7,13 +7,7 @@ export default component$(() => {
   useStyles$(globalStyles);
   return (
     <QwikCityProvider>
-      <head>
-        <meta charSet="utf-8" />
-        <link rel="manifest" href="/manifest.json" />
-      </head>
-      <body lang="en">
-        <RouterOutlet />
-      </body>
+      <RouterOutlet />
     </QwikCityProvider>
   );
 });
