@@ -4,12 +4,13 @@ import {
   createContextId,
   Slot,
   useContextProvider,
+  useOnDocument,
   useStore,
 } from '@builder.io/qwik';
-import { routeLoader$, useLocation } from '@builder.io/qwik-city';
+import { routeLoader$, useLocation, useNavigate } from '@builder.io/qwik-city';
 import { Account } from 'appwrite';
 import { useImageProvider } from 'qwik-image';
-import { TOKEN_COOKIE_KEY } from 'shared/constants';
+import { NAVIGATE_EVENT, TOKEN_COOKIE_KEY } from 'shared/constants';
 import { remotes } from 'shared/remotes';
 import { AuthOverlay } from '../components/AuthOverlay';
 import { EditProfileOverlay } from '../components/EditProfileOverlay';
@@ -59,8 +60,9 @@ export const useToken = routeLoader$(({ cookie }) => {
 });
 
 export default component$(() => {
-  const location = useLocation();
   const token = useToken();
+  const location = useLocation();
+  const navigate = useNavigate();
   const appStore = useStore<Store>({
     isLoginOpen: false,
     isEditProfileOpen: false,
@@ -71,6 +73,11 @@ export default component$(() => {
   useImageProvider({
     imageTransformer$: $(({ src }) => src),
   });
+
+  useOnDocument(
+    NAVIGATE_EVENT,
+    $((event) => navigate((event as CustomEvent).detail)),
+  );
 
   return location.url.pathname.startsWith('/post/') ? (
     <Slot />
